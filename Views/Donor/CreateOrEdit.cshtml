@@ -1,0 +1,122 @@
+﻿@model BloodKoshh.Models.DonorViewModel;
+@{
+    var data = ViewBag.Gender;
+    var data2 = ViewBag.Dist;
+    var data3 = ViewBag.Address;
+    DateTime date = DateTime.Now;
+    string currentDate = DateTime.UtcNow.ToString("yyyy-MM-dd");
+    Layout = null;
+  }
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="~/css/register.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="register-container">
+        <h1>Donor Details</h1>
+        <div class="content">
+            <form asp-controller="Donor" asp-action="CreateOrEdit" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Donor_id" />
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">First Name</span>
+                        <input asp-for="FirstName" type="text" placeholder="Enter your firstname">
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Middle Name</span>
+                        <input asp-for="MiddleName" type="text" placeholder="Enter your middlename">
+                        <span asp-validation-for="MiddleName" class="text-danger"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Last Name</span>
+                        <input asp-for="LastName" type="text" placeholder="Enter your lastname">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Email</span>
+                        <input asp-for="Email" type="email" placeholder="Enter your email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Phone Number</span>
+                        <input asp-for="PhoneNo" type="text" placeholder="Enter your number">
+                        <span asp-validation-for="PhoneNo" class="text-danger"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="details"> Address</span>
+                        @*<input asp-for="Address" type="text" placeholder="Enter address" required>*@
+                        <select class="selectgroup" asp-items="ViewBag.Address" asp-for="Address">
+                            <option value="">--Select Address--</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">District </span>
+                        @*<input asp-for="District" type="text" placeholder="Enter District" required>*@
+                        <select class="selectgroup" asp-items="ViewBag.Dist" asp-for="District">
+                            <option value="">--Select District--</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <span class="details"> Date Of Birth</span>
+                        <input asp-for="Dob" type="date" placeholder="Enter Dob">
+                        <span asp-validation-for="Dob" class="text-danger"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Blood Group </span>
+                        @*<input asp-for="BloodGroup" type="text" placeholder="Enter Blood group" required>*@
+                        <select class="selectgroup" asp-for="BloodGroup" type="text" placeholder="Enter Blood group">
+                            <option value="">--Select Blood Group--</option>
+                            <option>A+</option>
+                            <option>O+</option>
+                            <option>B+</option>
+                            <option>A-</option>
+                            <option>AB+</option>
+                            <option>O-</option>
+                            <option>B-</option>
+                            <option>AB-</option>
+                        </select>
+
+                    </div>
+                    <div class="input-box">
+                        <span class="details"> Health Info</span>
+                        <input asp-for="HealthInfo" type="text" placeholder="Enter your health info">
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Date</span>
+                        <input asp-for="Added_Date" type="date" placeholder="" value="@currentDate">
+                    </div>
+                    <div class="gender-details">
+                        <label class="gender-title" asp-for="Gender_Id" for="">Gender:</label>&nbsp &nbsp
+                        @foreach (var item in ViewBag.Gender)
+                        {
+                            <input type="radio" asp-for="Gender_Id" value="@item.Gender_Id">
+                            if (item.Gender_Name == 'M')
+                            {
+                                <span>Male</span>
+                            }
+                            else if (item.Gender_Name == 'F')
+                            {
+                                <span>Female</span>
+                            }
+                            else
+                            {
+                                <span>Others</span>
+                            }
+                            <span>&nbsp &nbsp</span>;
+ }
+                    </div>
+                </div>
+                <div class="button">
+                    <input type="submit" value="Register">
+                </div>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+﻿@model BloodKoshh.Models.EventViewModel;
+
+<style>
+    .text-danger {
+        color: red;
+        font-size: 10px;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Event Page</title>
+    <link rel="stylesheet" href="~/css/register.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</head>
+<body>
+    <div class="register-container">
+        <h1>Request Event</h1>
+        <div class="content">
+            <form asp-controller="Event" asp-action="CreateOrEdit" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="EventId" />
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">Event Name</span>
+                        <input asp-for="EventName" type="text" placeholder="Enter Event Name" required>
+                        <span asp-validation-for="EventName" class="text-danger"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Location</span>
+                        <input asp-for="Location" type="text" placeholder="Enter event Location">
+                        <span asp-validation-for="Location" class="text-danger"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Phone Number</span>
+                        <input asp-for="PhoneNo" type="text" placeholder="Enter Phone No." required>
+                        <span asp-validation-for="PhoneNo" class="text-danger"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Date</span>
+                        <input asp-for="EventDate" type="date" placeholder="Enter Event Date" required>
+                        <span asp-validation-for="EventDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="button">
+                    <input type="submit" value="Add Event">
+                </div>
+            </form>
+        </div>
+
+    </div>
+</body>

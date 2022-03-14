@@ -1,0 +1,39 @@
+﻿@model BloodKoshh.Models.BloodBankViewModel;
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="~/css/register.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="register-container">
+        <h1>Blood Bank Registration</h1>
+        <div class="content">
+            <form asp-controller="BloodBank" asp-action="CreateOrEdit" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Id" />
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">Blood Bank Name</span>
+                        <input asp-for="BloodBankName" type="text" placeholder="Enter BloodBank Name" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Location</span>
+                        <input asp-for="Location" type="text" placeholder="Enter your Location" >
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Phone Number</span>
+                        <input asp-for="Phone_No" type="text" placeholder="Enter Phone No." required>
+                    </div>
+                </div>
+                <div class="button">
+                    <input type="submit" value="Add Blood Bank">
+                </div>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>

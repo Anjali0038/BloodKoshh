@@ -1,0 +1,50 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .text-danger {
+        color: red;
+        font-size: 10px;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login page</title>
+    <link rel="stylesheet" href="~/css/login.css">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</head>
+<body>
+    <div class="login-center">
+        <h1>Donor Login :</h1>
+        <form method="post">
+            <div class="login-txt_field">
+                <label>Email</label>
+                <input asp-for="Input.Email" type="text" required placeholder="Enter Email" /></br>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="login-txt_field">
+                <label>Password</label>
+                <input asp-for="Input.Password" type="password" required placeholder="Enter Password" /><br />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <input class="login-submit" type="submit" value="Sign In">
+            <a id="forgot-password" asp-page="./ForgotPassword" class="login-pass">Forget Password?</a>
+        </form>
+        <form asp-area="Identity" asp-page="/Account/Register" method="get">
+            <button type="submit" class="login-button">Create new account</button>
+        </form>
+    </div>
+</body>
+</html>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

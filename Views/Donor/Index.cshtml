@@ -1,0 +1,84 @@
+﻿@model BloodKoshh.Models.DonorViewModel;
+@{
+    ViewData["Title"] = "List";
+}
+@using Microsoft.AspNetCore.Identity
+@using BloodKoshh.Areas.Identity.Data;
+@inject SignInManager<BloodKoshhUser> SignInManager
+@inject UserManager<BloodKoshhUser> UserManager
+<link rel="stylesheet" href="~/css/style.css">
+<body>
+    <div class="row col-sm-6">
+        <div class="col-sm-6 form-group">
+            <input id="txtVal" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+
+        </div>
+        <div class="col-sm-6 form-group">
+            <button class="btn btn-primary" id="btnSearch"> Search</button>
+
+        </div>
+    </div>
+    <div id="bloodbankList">
+        <table class="table  table-responsive table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>S.N</th>
+                    <th>Donor Name</th>
+                    <th>Location</th>
+                    <th>Contact</th>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <th>Action</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @{ int i = 1;}
+                @foreach (var item in Model.DonorList)
+                {
+                    <tr>
+                        <td>@(i++)</td>
+                        <td>@item.FirstName</td>
+                        <td>@item.Address</td>
+                        <td>@item.PhoneNo</td>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <td>
+                                @Html.ActionLink("Delete", "Delete", "Donor", new { id = item.Donor_id }, new { @class = "btn btn-secondary" })
+                                @Html.ActionLink("Edit", "CreateOrEdit", "Donor", new { id = item.Donor_id }, new { @class = "btn btn-secondary" })
+                            </td>
+                        }
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <div id="staffList"></div>
+</body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#btnSearch").click(function () {
+            $.ajax({
+                type: "GET",
+                url: "/BloodBank/AutoComplete",
+                type: 'GET',
+                data: {
+                    val: $('#txtVal').val(),
+
+                },
+                success: function (response) {
+                    $('#bloodbankList').empty();
+                    $('#bloodbankList').html(response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        });
+    });
+</script>
