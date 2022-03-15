@@ -1,10 +1,10 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: montserrat;
-    background: #cd3e3e;
-    height: 100vh;
-    overflow: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: montserrat;
+  background: #cd3e3e;
+  height: 100vh;
+  overflow: hidden;
 }
 .login-center {
   position: absolute;
@@ -14,9 +14,8 @@ body {
   width: 500px;
   height: 350px;
   background: whitesmoke;
-  border-radius: 10px;
-/*  z-index:0;
-*/}
+  border-radius: 10p;
+}
 .login-center h1 {
   text-align: left;
   margin-left: 30px;
@@ -25,8 +24,7 @@ body {
   display: flex;
   margin-bottom: 5px;
   color: #212529;
-  font-size: 25px;
-  font-family:Inter, serif;
+  font-size: 25px Inter, serif;
   font-weight: 800;
   margin-left: 30px;
 }
@@ -56,13 +54,13 @@ body {
   text-decoration: none;
 }
 .login-button {
-    border-top: 2px solid silver;
-    margin-left: 130px;
-    width: 50%;
-    height: 33px;
-    cursor: pointer;
-    background-color: rgb(43, 226, 104);
-    color: white;
-    border: none;
-    margin-top: 10px;
+  border-top: 2px solid silver;
+  margin-left: 130px;
+  width: 50%;
+  height: 33px;
+  cursor: pointer;
+  background-color: rgb(43, 226, 104);
+  color: white;
+  border: none;
+  margin-top: 10px;
 }

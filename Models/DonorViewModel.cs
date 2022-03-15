@@ -15,25 +15,10 @@ namespace BloodKoshh.Models
         public string MiddleName { get; set; }
         [Required]
         public string LastName { get; set; }
-        [Required(ErrorMessage = "Please Enter Username..")]
-        [Display(Name = "UserName")]
-        public string Username { get; set; }
-
-        [Required(ErrorMessage = "Please Enter Password...")]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Pwd { get; set; }
-
-        [Required(ErrorMessage = "Please Enter the Confirm Password...")]
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm Password")]
-        [Compare("Pwd")]
-        public string Confirmpwd { get; set; }
-
+        
         [Required(ErrorMessage = "Please Enter Email...")]
         [Display(Name = "Email")]
         public string Email { get; set; }
-
 
         [DataType(DataType.Date)]
         [Required]
@@ -56,11 +41,12 @@ namespace BloodKoshh.Models
         public DateTime Added_Date { get; set; }
         //if has any disease
         public string HealthInfo { get; set; }
+        public string UserId { get; set; }
+
         public List<DonorViewModel> DonorList { get; set; }
         public DonorViewModel()
         {
             DonorList = new List<DonorViewModel>();
         }
-
     }
 }

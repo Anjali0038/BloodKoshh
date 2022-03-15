@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BloodKoshh.Data;
 using BloodKoshh.Models;
 using BloodKoshh.Repository;
 using System;
@@ -14,19 +15,24 @@ namespace BloodKosh.Service
         void DeleteDonor(int id);
         DonorViewModel GetList();
         DonorViewModel GetById(int id);
+        int Edit(DonorViewModel model);
+
     }
     public class DonorProvider : IDonorProvider
     {
         private readonly IDonorRepository _iDonorRepository;
         private readonly IMapper _mapper;
+        private BloodKoshhContext _context;
 
-        public DonorProvider(IDonorRepository iDonorRepository, IMapper mapper)
+        public DonorProvider(IDonorRepository iDonorRepository, IMapper mapper, BloodKoshhContext context)
         {
             _iDonorRepository = iDonorRepository;
             _mapper = mapper;
+            _context = context;
         }
         public int SaveDonor(DonorViewModel model)
         {
+            string userid = model.UserId;
             Donor donor = new Donor();
             donor = _mapper.Map<Donor>(model);
             if (donor.Donor_id > 0)
@@ -36,6 +42,8 @@ namespace BloodKosh.Service
             }
             else
             {
+                var data = _context.Users.Where(x => x.Id == userid).First();
+                donor.UserId = data.Id;
                 _iDonorRepository.Add(donor);
                 return 200;
             }
@@ -60,6 +68,14 @@ namespace BloodKosh.Service
             model.DonorList = list;
             return model;
         }
+        public int Edit(DonorViewModel model)
+        {
+            Donor donor = new Donor();
+            donor = _mapper.Map<Donor>(model);
+            _iDonorRepository.Update(donor);
+            return 200;
+        }
+
     }
 
 }

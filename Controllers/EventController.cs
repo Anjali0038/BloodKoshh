@@ -1,5 +1,5 @@
-﻿using BloodKosh.Data;
-using BloodKosh.Models;
+﻿using BloodKoshh.Data;
+using BloodKoshh.Models;
 using BloodKosh.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,9 +12,9 @@ namespace BloodKosh.Controllers
     public class EventController : Controller
     {
         private readonly IEventProvider _iEventProvider;
-        private BloodKoshContext _context;
+        private BloodKoshhContext _context;
 
-        public EventController(IEventProvider iEventProvider, BloodKoshContext context)
+        public EventController(IEventProvider iEventProvider, BloodKoshhContext context)
         {
             _iEventProvider = iEventProvider;
             _context = context;
@@ -47,7 +47,7 @@ namespace BloodKosh.Controllers
             {
                 model = _iEventProvider.GetById(id.Value);
             }
-            return PartialView(model);
+            return View(model);
         }
         [HttpPost]
         public IActionResult CreateOrEdit(EventViewModel model)

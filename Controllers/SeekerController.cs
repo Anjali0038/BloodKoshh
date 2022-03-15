@@ -1,5 +1,5 @@
-﻿using BloodKosh.Data;
-using BloodKosh.Models;
+﻿using BloodKoshh.Data;
+using BloodKoshh.Models;
 using BloodKosh.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,9 +12,9 @@ namespace BloodKosh.Controllers
     public class SeekerController : Controller
     {
         private readonly ISeekerProvider _iSeekerProvider;
-        private BloodKoshContext _context;
+        private BloodKoshhContext _context;
 
-        public SeekerController(ISeekerProvider iSeekerProvider, BloodKoshContext context)
+        public SeekerController(ISeekerProvider iSeekerProvider, BloodKoshhContext context)
         {
             _iSeekerProvider = iSeekerProvider;
             _context = context;

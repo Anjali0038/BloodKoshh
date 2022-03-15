@@ -1,5 +1,5 @@
-﻿using BloodKosh.Data;
-using BloodKosh.Models;
+﻿using BloodKoshh.Data;
+using BloodKoshh.Models;
 using BloodKosh.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace BloodKosh.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "BloodBank,Admin")]
     public class BloodBankController : Controller
     {
         private readonly IBloodBankProvider _iBloodBankProvider;
-        private BloodKoshContext _context;
+        private BloodKoshhContext _context;
 
-        public BloodBankController(IBloodBankProvider iBloodBankProvider, BloodKoshContext context)
+        public BloodBankController(IBloodBankProvider iBloodBankProvider, BloodKoshhContext context)
         {
             _iBloodBankProvider = iBloodBankProvider;
             _context = context;

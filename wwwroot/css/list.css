@@ -1,0 +1,26 @@
+.content {
+    font-size: 15px;
+    color: #666;
+    font-weight: 300;
+    padding: 0px;
+}
+.content-panel {
+    padding: 500px 0;
+}
+.btn {
+    border-radius: 0px;
+}
+.search-button {
+    background-color: #d14461;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 16px;
+    font-weight: 300;
+    transition: all 1s;
+    cursor: default;
+}
+
+.donor-list {
+    margin: 30px 0 0 0;
+}

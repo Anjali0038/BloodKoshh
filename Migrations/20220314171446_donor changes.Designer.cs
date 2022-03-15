@@ -4,14 +4,16 @@ using BloodKoshh.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BloodKoshh.Migrations
 {
     [DbContext(typeof(BloodKoshhContext))]
-    partial class BloodKoshhContextModelSnapshot : ModelSnapshot
+    [Migration("20220314171446_donor changes")]
+    partial class donorchanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,15 +203,7 @@ namespace BloodKoshh.Migrations
                     b.Property<double>("PhoneNo")
                         .HasColumnType("float");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("bloodKoshhUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Donor_id");
-
-                    b.HasIndex("bloodKoshhUserId");
 
                     b.ToTable("Donors");
                 });
@@ -262,11 +256,18 @@ namespace BloodKoshh.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("Added_Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BloodGroup")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Confirmpwd")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -278,8 +279,15 @@ namespace BloodKoshh.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1)");
+
                     b.Property<string>("LastName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MiddleName")
@@ -288,7 +296,15 @@ namespace BloodKoshh.Migrations
                     b.Property<double>("PhoneNo")
                         .HasColumnType("float");
 
+                    b.Property<string>("Pwd")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RequestReason")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -430,15 +446,6 @@ namespace BloodKoshh.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("BloodKoshh.Models.Donor", b =>
-                {
-                    b.HasOne("BloodKoshh.Areas.Identity.Data.BloodKoshhUser", "bloodKoshhUser")
-                        .WithMany()
-                        .HasForeignKey("bloodKoshhUserId");
-
-                    b.Navigation("bloodKoshhUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

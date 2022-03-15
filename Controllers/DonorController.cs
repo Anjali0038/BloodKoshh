@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BloodKosh.Controllers
 {
@@ -22,6 +23,7 @@ namespace BloodKosh.Controllers
             _context = context;
 
         }
+        [AllowAnonymous]
         public IActionResult Index(string searchText = "")
         {
             DonorViewModel donor = new DonorViewModel();
@@ -69,8 +71,8 @@ namespace BloodKosh.Controllers
             {
                 donor = _iDonorProvider.GetById(id.Value);
             }
-            return PartialView(donor);
             ViewBag.Gender = _context.Genders.ToList();
+            return View(donor);
         }
         [HttpPost]
         public IActionResult CreateOrEdit(DonorViewModel model)
@@ -90,6 +92,29 @@ namespace BloodKosh.Controllers
         {
             _iDonorProvider.DeleteDonor(id);
             return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public IActionResult Approve(int? id)
+        {
+            DonorViewModel donor = new DonorViewModel();
+            if (id.HasValue)
+            {
+                donor = _iDonorProvider.GetById(id.Value);
+            }
+            return View(donor);
+        }
+        [HttpPost]
+        public IActionResult Approve(DonorViewModel model)
+        {
+            try
+            {
+                _iDonorProvider.Edit(model);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public ActionResult DonorSearch(string val)
         {
