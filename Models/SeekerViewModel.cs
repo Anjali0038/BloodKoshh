@@ -27,6 +27,7 @@ namespace BloodKoshh.Models
         [Required(ErrorMessage = "Please Enter Email...")]
         [Display(Name = "Email")]
         public string Email { get; set; }
+        public bool Requeststatus { get; set; }
         public List<SeekerViewModel> SeekerList { get; set; }
         public SeekerViewModel()
         {

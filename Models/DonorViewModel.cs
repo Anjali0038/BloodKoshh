@@ -41,6 +41,10 @@ namespace BloodKoshh.Models
         public DateTime Added_Date { get; set; }
         //if has any disease
         public string HealthInfo { get; set; }
+        public bool Status { get; set; }
+        public bool ApprovedStatus { get; set; }
+        public bool RequestStatus { get; set; }
+        public int Count { get; set; }
         public string UserId { get; set; }
 
         public List<DonorViewModel> DonorList { get; set; }

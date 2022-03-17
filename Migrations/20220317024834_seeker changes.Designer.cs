@@ -4,14 +4,16 @@ using BloodKoshh.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BloodKoshh.Migrations
 {
     [DbContext(typeof(BloodKoshhContext))]
-    partial class BloodKoshhContextModelSnapshot : ModelSnapshot
+    [Migration("20220317024834_seeker changes")]
+    partial class seekerchanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,9 +114,6 @@ namespace BloodKoshh.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("ApprovedStatus")
-                        .HasColumnType("bit");
-
                     b.Property<string>("BloodBankName")
                         .HasColumnType("nvarchar(max)");
 
@@ -123,9 +122,6 @@ namespace BloodKoshh.Migrations
 
                     b.Property<double>("Phone_No")
                         .HasColumnType("float");
-
-                    b.Property<bool>("RequestStatus")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -213,9 +209,6 @@ namespace BloodKoshh.Migrations
                     b.Property<double>("PhoneNo")
                         .HasColumnType("float");
 
-                    b.Property<bool>("RequestStatus")
-                        .HasColumnType("bit");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
@@ -235,9 +228,6 @@ namespace BloodKoshh.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("ApprovedStatus")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("datetime2");

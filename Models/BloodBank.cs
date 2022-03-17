@@ -11,5 +11,8 @@ namespace BloodKoshh.Models
         public string BloodBankName { get; set; }
         public string Location { get; set; }
         public double Phone_No { get; set; }
+        public bool ApprovedStatus { get; set; }
+        public bool RequestStatus { get; set; }
+
     }
 }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BloodKosh.Controllers
 {
@@ -66,6 +67,35 @@ namespace BloodKosh.Controllers
         {
             _iEventProvider.DeleteEvent(id);
             return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public IActionResult ApprovedEvents()
+        {
+            var data = _iEventProvider.GetApprovedEvents();
+            return View(data);
+        }
+        [HttpGet]
+        public IActionResult Approve(int? id)
+        {
+            EventViewModel model = new EventViewModel();
+            if (id.HasValue)
+            {
+                model = _iEventProvider.GetById(id.Value);
+            }
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult Approve(EventViewModel model)
+        {
+            try
+            {
+                _iEventProvider.Edit(model);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public ActionResult EventSearch(string val)
         {

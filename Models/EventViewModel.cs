@@ -16,6 +16,7 @@ namespace BloodKoshh.Models
         [Required]
         [Phone]
         public double PhoneNo { get; set; }
+        public bool ApprovedStatus { get; set; }
         public List<EventViewModel> EventList { get; set; }
         public EventViewModel()
         {

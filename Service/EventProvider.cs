@@ -14,6 +14,9 @@ namespace BloodKosh.Service
         void DeleteEvent(int id);
         EventViewModel GetList();
         EventViewModel GetById(int id);
+        int Edit(EventViewModel model);
+        EventViewModel GetApprovedEvents();
+
     }
     public class EventProvider : IEventProvider
     {
@@ -58,6 +61,28 @@ namespace BloodKosh.Service
             List<Event> data = _iEventRepository.GetAll().ToList();
             list = _mapper.Map<List<Event>, List<EventViewModel>>(data);
             model.EventList = list;
+            return model;
+        }
+        public int Edit(EventViewModel model)
+        {
+            Event data = new Event();
+            data = _mapper.Map<Event>(model);
+            _iEventRepository.Update(data);
+            return 200;
+        }
+        public EventViewModel GetApprovedEvents()
+        {
+            EventViewModel model = new EventViewModel();
+            var list = new List<EventViewModel>();
+            List<Event> data = _iEventRepository.GetAll().ToList();
+            foreach (var item in data)
+            {
+                if (item.ApprovedStatus == true)
+                {
+                    list = _mapper.Map<List<Event>, List<EventViewModel>>(data);
+                    model.EventList = list;
+                }
+            }
             return model;
         }
     }

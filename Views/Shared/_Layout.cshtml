@@ -68,13 +68,9 @@
                         else if (User.IsInRole("Donor"))
                         {
                             <li class="nav-item dropdown" style="cursor: pointer;">
-                                <a class="nav-link" id="navbarDropdown">
+                                <a asp-controller="Donor" asp-action="Index" class="nav-link" id="navbarDropdown">
                                     Add Details
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item drop-text" asp-controller="Donor" asp-action="CreateOrEdit">Add </a>
-                                </div>
                             </li>
                             <li class="nav-item dropdown" style="cursor: pointer;">
                                 <a class="nav-link" id="navbarDropdown">
@@ -154,7 +150,7 @@
 
 
     @await RenderSectionAsync("Scripts", required: false)
-    <footer >
+    @*<footer >
         <div class="container">
             <div class="row">
                 <div class="col-md-6 footer-logo">
@@ -166,6 +162,6 @@
 
             </div>
         </div>
-    </footer>
+    </footer>*@
 </body>
 </html>

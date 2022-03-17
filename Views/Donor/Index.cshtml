@@ -1,11 +1,11 @@
 ﻿@model BloodKoshh.Models.DonorViewModel;
-    @{
-        ViewData["Title"] = "List";
-    }
+@{
+    ViewData["Title"] = "List";
+}
 @using Microsoft.AspNetCore.Identity
-    @using BloodKoshh.Areas.Identity.Data;
-    @inject SignInManager<BloodKoshhUser> SignInManager
-    @inject UserManager<BloodKoshhUser> UserManager
+@using BloodKoshh.Areas.Identity.Data;
+@inject SignInManager<BloodKoshhUser> SignInManager
+@inject UserManager<BloodKoshhUser> UserManager
 
 
 <!DOCTYPE html>
@@ -19,14 +19,14 @@
     <link rel="stylesheet" href="list.css">
     <link rel="stylesheet" href="public/assets/css/style.css">
     @*<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">*@
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">*@
     <!-- Font Awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
           type="text/css">
 </head>
 <body>
     <div class="donor-details-panel content">
-        <div style="padding:130px" class="container content-panel">
+        @*<div style="padding:130px" class="container content-panel">
             <div class="row">
                 <div class="col-md-4 col-sm-4 search-field">
                     <p style="margin: 0; background: #d14461;" class="btn search-button form-control">
@@ -43,51 +43,98 @@
                         </option>
                     </select>
                 </div>
-            </div>
-            <div class="donor-list">
+            </div>*@
+        *<div style="padding:100px" class="container content-panel">
+            <button asp-controller="Donor" asp-action="CreateOrEdit"> Add/Manage your Details</button>
+            <form method="get" asp-controller="Donor" asp-action="Index">
                 <div class="row">
-                    <div class="col-md-12 donor-details" id="donorDetail">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr class="tbl-row-header">
-                                    <th>S. No.</th>
-                                    <th>Name</th>
-                                    <th>Address</th>
-                                    <th>Blood Group</th>
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <th>Approve</th>
-                                    }
-                                
+                    <div class="col-md-4">
+                        <input id="txtVal" class="form-control mr-sm-2" type="text" placeholder="Search" name="searchText" aria-label="Search">
+                        <input id="txt" type="hidden" asp-for="Donor_id" />
+                        <button type="submit" class="btn btn-primary" id="btnSearch"> Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="donor-list">
+            <div class="row">
+                <div class="col-md-12 donor-details" id="donorDetail">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class="tbl-row-header">
+                                <th>S. No.</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Blood Group</th>
+                                @if (User.IsInRole("Admin"))
+                                {
                                     <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="donorDetailsData">
-                                @{ int i = 1;}
+                                    <th>Approve</th>
+                                }
+                                <th>Request</th>
+                            </tr>
+                        </thead>
+                        <tbody id="donorDetailsData">
+                            @{ int i = 1;}
+                            @if (User.IsInRole("Admin"))
+                            {
                                 @foreach (var item in Model.DonorList)
                                 {
-                                <tr>
-                                    <td data-title="id">@(i++)</td>
-                                    <td itemprop="name" data-title="name" class="donor-name"> @item.FirstName @item.MiddleName @item.LastName</td>
-                                    <td itemprop="address" data-title="address">@item.Address</td>
-                                    <td itemprop="blood" data-title="blood">@item.BloodGroup</td>
-                                    @*@if (item.Email == UserManager.GetUserAsync(User).Result.Email)
-                                    {*@
+                                    <tr>
+                                        <td data-title="id">@(i++)</td>
+                                        <td itemprop="name" data-title="name" class="donor-name"> @item.FirstName @item.MiddleName @item.LastName</td>
+                                        <td itemprop="address" data-title="address">@item.Address</td>
+                                        <td itemprop="blood" data-title="blood">@item.BloodGroup</td>
                                         <td>
                                             @Html.ActionLink("Delete", "Delete", "Donor", new { id = item.Donor_id }, new { @class = "btn btn-secondary" })
                                             @Html.ActionLink("Edit", "CreateOrEdit", "Donor", new { id = item.Donor_id }, new { @class = "btn btn-secondary" })
                                         </td>
-                                </tr>
+                                        <td>
+                                            @using (Html.BeginForm("Approve", "Donor", new { Id = item.Donor_id }, FormMethod.Get))
+                                            {
+                                                <button class="btn btn-secondary">Approve</button>
+                                            }
+                                        </td>
+
+                                    </tr>
                                 }
-                                </tbody>
-                        </table>
-                    </div>
+                            }
+                            else
+                            {
+                                @foreach (var item in Model.DonorList)
+                                {
+                                    if (item.ApprovedStatus == true)
+                                    {
+                                        <tr>
+                                            <td data-title="id">@(i++)</td>
+                                            <td itemprop="name" data-title="name" class="donor-name"> @item.FirstName @item.MiddleName @item.LastName</td>
+                                            <td itemprop="address" data-title="address">@item.Address</td>
+                                            <td itemprop="blood" data-title="blood">@item.BloodGroup</td>
+                                            @if (User.IsInRole("Donor"))
+                                            {
+                                                <td>
+                                                    @Html.ActionLink("Delete", "Delete", "Donor", new { id = item.Donor_id }, new { @class = "btn btn-secondary" })
+                                                    @Html.ActionLink("Edit", "CreateOrEdit", "Donor", new { id = item.Donor_id }, new { @class = "btn btn-secondary" })
+                                                </td>
+                                            }
+                                            <td>
+                                                <button class="btn btn-secondary">Request</button>
+                                            </td>
+
+                                        </tr>
+                                    }
+                                }
+                            }
+                            
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+    </div>
 
-    <script>
+    @*<script>
         var coll = document.getElementsByClassName("collapsible");
         var i;
 
@@ -102,7 +149,7 @@
                 }
             });
         }
-    </script>
+    </script>*@
 
     <script src="~/js/jquery-3.4.1.slim.min.js"></script>
     <script src="~/js/revealonscroll.js"></script>
@@ -111,3 +158,39 @@
 </body>
 
 </html>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#txtVal").autocomplete({
+            source: function (request, response) {
+                debugger
+                $.ajax({
+                    url: '/Donor/AutoComplete/',
+                    data: { "prefix": request.term },
+                    type: "POST",
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (e, i) {
+                $("#txt").val(i.item.val);
+            },
+            minLength: 1
+        });
+        $("#approveform").submit(function (e) {
+            //disable the submit button
+            $("#btnSubmit").attr("disabled", true);
+            return true;
+
+        });
+    });
+</script>

@@ -26,6 +26,7 @@
 <body>
     <div class="donor-details-panel content">
         <div style="padding:130px" class="container content-panel">
+            <button asp-controller="BloodBank" asp-action="CreateOrEdit"> Add/Manage Blood bank Details</button>
             <div class="row">
                 <div class="col-md-4 col-sm-4 search-field">
                     <p style="margin: 0; background: #d14461;" class="btn search-button form-control">
@@ -71,7 +72,7 @@
                                         <td itemprop="address" data-title="address">@item.Location</td>
                                         <td itemprop="blood" data-title="blood">@item.Phone_No</td>
                                         @*@if (item.Email == UserManager.GetUserAsync(User).Result.Email)
-                                            {*@
+                                    {*@
                                         <td>
                                             @Html.ActionLink("Delete", "Delete", "BloodBank", new { id = item.Id }, new { @class = "btn btn-secondary" })
                                             @Html.ActionLink("Edit", "CreateOrEdit", "BloodBank", new { id = item.Id }, new { @class = "btn btn-secondary" })

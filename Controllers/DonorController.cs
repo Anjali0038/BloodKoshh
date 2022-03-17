@@ -94,13 +94,38 @@ namespace BloodKosh.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
+        public IActionResult ApprovedDonors()
+        {
+            var data = _iDonorProvider.GetApprovedDonors();
+            return View(data);
+        }
+        [HttpGet]
         public IActionResult Approve(int? id)
         {
+            var DistrictList = _context.Districts.ToList();
+            List<SelectListItem> dist = new List<SelectListItem>();
+            foreach (var item in DistrictList)
+            {
+                string data1 = item.Districts;
+                SelectListItem items = new SelectListItem { Value = data1, Text = data1 };
+                dist.Add(items);
+            }
+            ViewBag.Dist = dist;
+            var AddressList = _context.Address.ToList();
+            List<SelectListItem> address = new List<SelectListItem>();
+            foreach (var item in AddressList)
+            {
+                string data = item.Name;
+                SelectListItem items = new SelectListItem { Value = data, Text = data };
+                address.Add(items);
+            }
+            ViewBag.Address = address;
             DonorViewModel donor = new DonorViewModel();
             if (id.HasValue)
             {
                 donor = _iDonorProvider.GetById(id.Value);
             }
+            ViewBag.Gender = _context.Genders.ToList();
             return View(donor);
         }
         [HttpPost]
@@ -128,7 +153,7 @@ namespace BloodKosh.Controllers
                                       FirstName = s.FirstName,
                                       LastName = s.LastName,
                                       MiddleName = s.MiddleName,
-                                      Email = s.Email,
+                                      BloodGroup = s.BloodGroup,
                                       Address = s.Address,
                                   }).ToList();
             return PartialView(model);
