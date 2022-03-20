@@ -32,13 +32,20 @@
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown" style="cursor: pointer;">
                             <a class="nav-link" id="navbarDropdown">
-                                Looking For Blood
+                                BloodBanks
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item drop-text" asp-controller="BloodBank" asp-action="Index">Blood Bank Directory</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown" style="cursor: pointer;">
+                            <a class="nav-link" id="navbarDropdown">
+                                Donors
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <div class="dropdown-divider target"></div>
-                                <a class="dropdown-item drop-text" asp-controller="Donor" asp-action="Index">Blood Availability</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item drop-text" asp-controller="BloodBank" asp-action="Index">Blood Bank Directory</a>
+                                <a class="dropdown-item drop-text" asp-controller="Donor" asp-action="Index">Donor Details </a>
                             </div>
                         </li>
                         <li class="nav-item dropdown" style="cursor: pointer;">
@@ -57,21 +64,16 @@
                         {
                             <li class="nav-item dropdown" style="cursor: pointer;">
                                 <a class="nav-link" id="navbarDropdown">
-                                    Manage Donor
+                                    Donors
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <div class="dropdown-divider target"></div>
-                                    <a class="dropdown-item drop-text" asp-controller="Donor" asp-action="Index">Donor Details</a>
+                                    <a class="dropdown-item drop-text" asp-controller="Donor" asp-action="Index">Donor Details </a>
                                 </div>
                             </li>
                         }
-                        else if (User.IsInRole("Donor"))
+                        @*else if (User.IsInRole("Donor"))
                         {
-                            <li class="nav-item dropdown" style="cursor: pointer;">
-                                <a asp-controller="Donor" asp-action="Index" class="nav-link" id="navbarDropdown">
-                                    Add Details
-                                </a>
-                            </li>
                             <li class="nav-item dropdown" style="cursor: pointer;">
                                 <a class="nav-link" id="navbarDropdown">
                                     Donors
@@ -90,18 +92,9 @@
                                     <a class="dropdown-item drop-text" asp-controller="BloodBank" asp-action="Index">List</a>
                                 </div>
                             </li>
-                        }
-                        else if (User.IsInRole("BloodBank"))
+                        }*@
+                        @*else if (User.IsInRole("BloodBank"))
                         {
-                            <li class="nav-item dropdown" style="cursor: pointer;">
-                                <a class="nav-link" id="navbarDropdown">
-                                    Add BloodBank Details
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item drop-text" asp-controller="BloodBank" asp-action="CreateOrEdit">Add Information</a>
-                                </div>
-                            </li>
                             <li class="nav-item dropdown" style="cursor: pointer;">
                                 <a class="nav-link" id="navbarDropdown">
                                     Blood Bank List
@@ -120,7 +113,7 @@
                                     <a class="dropdown-item drop-text" asp-controller="Donor" asp-action="Index">List</a>
                                 </div>
                             </li>
-                        }
+                        }*@
 
                     </ul>
                     @*<ul class="navbar-nav ms-auto">

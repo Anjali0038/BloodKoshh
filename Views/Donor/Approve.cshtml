@@ -28,8 +28,8 @@
             {
                 <form asp-controller="Donor" asp-action="Approve" method="post" enctype="multipart/form-data">
                     <input type="hidden" asp-for="Donor_id" />
-                    <input type="hidden" value="@UserManager.GetUserAsync(User).Result.Email" asp-for="Email" />
-                    <input type="hidden" value="@UserManager.GetUserAsync(User).Result.Id" asp-for="UserId" />
+                    @*<input type="hidden" value="@UserManager.GetUserAsync(User).Result.Email" asp-for="Email" />
+                    <input type="hidden" value="@UserManager.GetUserAsync(User).Result.Id" asp-for="UserId" />*@
                     <div class="user-details">
                         <div class="input-box">
                             <span class="details">First Name</span>
@@ -114,7 +114,7 @@
                                 <span>&nbsp &nbsp</span>;
      }
                         </div>
-                        <input type="hidden" asp-for="UserId" />
+                        @*<input type="hidden" asp-for="UserId" />*@
                         <input type="hidden" value="true" asp-for="ApprovedStatus" />
                     </div>
                     <div class="button">

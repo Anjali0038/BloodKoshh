@@ -26,7 +26,12 @@
 <body>
     <div class="donor-details-panel content">
         <div style="padding:130px" class="container content-panel">
-            <button asp-controller="BloodBank" asp-action="CreateOrEdit"> Add/Manage Blood bank Details</button>
+            @if (User.IsInRole("BloodBank"))
+            {
+                @*<button asp-controller="BloodBank" asp-action="CreateOrEdit"> Add/Manage Blood bank Details</button>*@
+                @Html.ActionLink("Add/Manage Blood bank Details", "CreateOrEdit", "BloodBank", new { id = @UserManager.GetUserAsync(User).Result.Id }, new { @class = "btn btn-secondary" })
+
+            }
             <div class="row">
                 <div class="col-md-4 col-sm-4 search-field">
                     <p style="margin: 0; background: #d14461;" class="btn search-button form-control">
@@ -56,28 +61,47 @@
                                     <th>Contact</th>
                                     @if (User.IsInRole("Admin"))
                                     {
+                                        <th>Action</th>
                                         <th>Approve</th>
                                     }
-
-                                    <th>Action</th>
+                                    <th>Request</th>
                                 </tr>
                             </thead>
                             <tbody id="donorDetailsData">
                                 @{ int i = 1;}
                                 @foreach (var item in Model.BankList)
                                 {
-                                    <tr>
-                                        <td data-title="id">@(i++)</td>
-                                        <td itemprop="name" data-title="name" class="donor-name"> @item.BloodBankName</td>
-                                        <td itemprop="address" data-title="address">@item.Location</td>
-                                        <td itemprop="blood" data-title="blood">@item.Phone_No</td>
-                                        @*@if (item.Email == UserManager.GetUserAsync(User).Result.Email)
-                                    {*@
+                                <tr>
+                                    <td data-title="id">@(i++)</td>
+                                    <td itemprop="name" data-title="name" class="donor-name"> @item.BloodBankName</td>
+                                    <td itemprop="address" data-title="address">@item.Location</td>
+                                    <td itemprop="blood" data-title="blood">@item.Phone_No</td>
+                                    @*@if (item.Email == UserManager.GetUserAsync(User).Result.Email)
+        {*@
+                                    @if (User.IsInRole("Admin"))
+                                    {
                                         <td>
                                             @Html.ActionLink("Delete", "Delete", "BloodBank", new { id = item.Id }, new { @class = "btn btn-secondary" })
                                             @Html.ActionLink("Edit", "CreateOrEdit", "BloodBank", new { id = item.Id }, new { @class = "btn btn-secondary" })
                                         </td>
-                                    </tr>
+                                        <td>
+                                            @if (item.ApprovedStatus == false)
+                                            {
+                                                @using (Html.BeginForm("Approve", "BloodBank", new { Id = item.Id }, FormMethod.Get))
+                                                {
+                                                    <button class="btn btn-secondary">Approve Blood Bank</button>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-secondary">Approved</button>
+                                            }
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-secondary">Request</button>
+                                        </td>
+                                    }
+                                </tr>
                                 }
                             </tbody>
                         </table>
