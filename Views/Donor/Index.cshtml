@@ -45,6 +45,8 @@
                 </div>
             </div>*@
         *<div style="padding:100px" class="container content-panel">
+    <h1>Donors List</h1>
+
     @if (User.IsInRole("Donor"))
     {
         <button asp-controller="Donor" asp-action="CreateOrEdit"> Add/Manage your Details</button>
@@ -69,12 +71,16 @@
                                 <th>Name</th>
                                 <th>Address</th>
                                 <th>Blood Group</th>
+                                <th>Contact</th>
                                 @if (User.IsInRole("Admin"))
                                 {
                                     <th>Action</th>
                                     <th>Approve</th>
                                 }
-                                <th>Request</th>
+                                else
+                                {
+                                    <th>Request</th>
+                                }
                             </tr>
                         </thead>
                         <tbody id="donorDetailsData">
@@ -83,33 +89,31 @@
                             {
                                 @foreach (var item in Model.DonorList)
                                 {
-                            <tr>
-                                <td data-title="id">@(i++)</td>
-                                <td itemprop="name" data-title="name" class="donor-name"> @item.FirstName @item.MiddleName @item.LastName</td>
-                                <td itemprop="address" data-title="address">@item.Address</td>
-                                <td itemprop="blood" data-title="blood">@item.BloodGroup</td>
-                                <td>
-                                    @Html.ActionLink("Delete", "Delete", "Donor", new { id = item.Donor_id }, new { @class = "btn btn-secondary" })
-                                    @Html.ActionLink("Edit", "CreateOrEdit", "Donor", new { id = item.Donor_id }, new { @class = "btn btn-secondary" })
-                                </td>
-                                <td>
-                                    @if (item.ApprovedStatus == false)
-                                    {
-                                        @using (Html.BeginForm("Approve", "Donor", new { Id = item.Donor_id }, FormMethod.Get))
-                                        {
-                                            <button class="btn btn-secondary">Approve Donor</button>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <button class="btn btn-secondary">Approved</button>
-                                    }
-                                </td>
-                                <td>
-                                    <button class="btn btn-secondary">Request</button>
-                                </td>
+                                <tr>
+                                    <td data-title="id">@(i++)</td>
+                                    <td itemprop="name" data-title="name" class="donor-name"> @item.FirstName @item.MiddleName @item.LastName</td>
+                                    <td itemprop="address" data-title="address">@item.Address</td>
+                                    <td itemprop="blood" data-title="blood">@item.BloodGroup</td>
+                                    <td itemprop="contact" data-title="blood">@item.PhoneNo</td>
 
-                            </tr>
+                                    <td>
+                                        @Html.ActionLink("Delete", "Delete", "Donor", new { id = item.Donor_id }, new { @class = "btn btn-secondary" })
+                                        @Html.ActionLink("Edit", "CreateOrEdit", "Donor", new { id = item.Donor_id }, new { @class = "btn btn-secondary" })
+                                    </td>
+                                    <td>
+                                        @if (item.ApprovedStatus == false)
+                                        {
+                                            @using (Html.BeginForm("Approve", "Donor", new { Id = item.Donor_id }, FormMethod.Get))
+                                            {
+                                                <button class="btn btn-secondary">Approve Donor</button>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-secondary">Approved</button>
+                                        }
+                                    </td>
+                                </tr>
                                 }
                             }
                             else
@@ -123,16 +127,28 @@
                                             <td itemprop="name" data-title="name" class="donor-name"> @item.FirstName @item.MiddleName @item.LastName</td>
                                             <td itemprop="address" data-title="address">@item.Address</td>
                                             <td itemprop="blood" data-title="blood">@item.BloodGroup</td>
-                                            @if (User.IsInRole("Donor"))
+                                            <td itemprop="contact" data-title="blood">@item.PhoneNo</td>
+
+                                            @if (User.IsInRole("Admin"))
                                             {
                                                 <td>
                                                     @Html.ActionLink("Delete", "Delete", "Donor", new { id = item.Donor_id }, new { @class = "btn btn-secondary" })
                                                     @Html.ActionLink("Edit", "CreateOrEdit", "Donor", new { id = item.Donor_id }, new { @class = "btn btn-secondary" })
                                                 </td>
                                             }
-                                            <td>
-                                                <button class="btn btn-secondary">Request</button>
-                                            </td>
+                                        <td>
+                                            @if (item.RequestStatus == false)
+                                            {
+                                                @using (Html.BeginForm("Request", "Donor", new { Id = item.Donor_id }, FormMethod.Get))
+                                                {
+                                                    <button class="btn btn-secondary">Request Donor</button>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-secondary">Requested</button>
+                                            }
+                                        </td>
 
                                         </tr>
                                     }
