@@ -26,41 +26,18 @@
 </head>
 <body>
     <div class="donor-details-panel content">
-        @*<div style="padding:130px" class="container content-panel">
-            <div class="row">
-                <div class="col-md-4 col-sm-4 search-field">
-                    <p style="margin: 0; background: #d14461;" class="btn search-button form-control">
-                        search <span class="hidden-sm">blood</span> donors
-                    </p>
-                </div>
-                <div class="col-md-4 col-sm-4 col-xs-6 search-field">
-                </div>
-                <div class="col-md-4 col-sm-4  search-field">
-                    <select name="txtBloodGroup" class="blood-group form-control" id="txtBloodGroup">
-                        <option selected value="all">Blood Group</option>
-                        <option value="A+">
-                            A+
-                        </option>
-                    </select>
-                </div>
-            </div>*@
-        *<div style="padding:100px" class="container content-panel">
-    <h1>Donors List</h1>
+        <div style="padding:100px" class="container content-panel">
+            <h1>Donors List</h1>
+            @if (User.IsInRole("Donor"))
+            {
+                    <form method="get" asp-controller="Donor" asp-action="Index">
+                        <input type="hidden" value="@Model.Donor_id" asp-for="Donor_id" />
+                        <input type="hidden" asp-for="UserId" />
+                        <button class="btn btn-primary" asp-controller="Donor" asp-action="CreateOrEdit"> Add/Manage your Details</button>
+                    </form>
+            }
 
-    @if (User.IsInRole("Donor"))
-    {
-        <button asp-controller="Donor" asp-action="CreateOrEdit"> Add/Manage your Details</button>
-    }
-    <form method="get" asp-controller="Donor" asp-action="Index">
-        <div class="row">
-            <div class="col-md-4">
-                <input id="txtVal" class="form-control mr-sm-2" type="text" placeholder="Search" name="searchText" aria-label="Search">
-                <input id="txt" type="hidden" asp-for="Donor_id" />
-                <button type="submit" class="btn btn-primary" id="btnSearch"> Search</button>
-            </div>
         </div>
-    </form>
-</div>
         <div class="donor-list">
             <div class="row">
                 <div class="col-md-12 donor-details" id="donorDetail">
@@ -76,6 +53,11 @@
                                 {
                                     <th>Action</th>
                                     <th>Approve</th>
+                                }
+                                else if (User.IsInRole("Donor"))
+                                {
+                                    <th>Edit</th>
+                                    <th>Request</th>
                                 }
                                 else
                                 {
@@ -122,35 +104,38 @@
                                 {
                                     if (item.ApprovedStatus == true)
                                     {
-                                        <tr>
-                                            <td data-title="id">@(i++)</td>
-                                            <td itemprop="name" data-title="name" class="donor-name"> @item.FirstName @item.MiddleName @item.LastName</td>
-                                            <td itemprop="address" data-title="address">@item.Address</td>
-                                            <td itemprop="blood" data-title="blood">@item.BloodGroup</td>
-                                            <td itemprop="contact" data-title="blood">@item.PhoneNo</td>
+                        <tr>
+                            <td data-title="id">@(i++)</td>
+                            <td itemprop="name" data-title="name" class="donor-name"> @item.FirstName @item.MiddleName @item.LastName</td>
+                            <td itemprop="address" data-title="address">@item.Address</td>
+                            <td itemprop="blood" data-title="blood">@item.BloodGroup</td>
+                            <td itemprop="contact" data-title="blood">@item.PhoneNo</td>
+                           
+                            <td>
+                                @if (User.IsInRole("Donor"))
+                                {
+                                    @if (UserManager.GetUserAsync(User).Result.Id == item.UserId)
+                                    {
+                                        @Html.ActionLink("Edit", "CreateOrEdit", "Donor", new { id = item.Donor_id }, new { @class = "btn btn-secondary" })
+                                    }
+                                }
+                            </td>
+                                    
+                                <td>
+                                    @if (item.RequestStatus == false)
+                                    {
+                                        @using (Html.BeginForm("Request", "Donor", new { Id = item.Donor_id }, FormMethod.Get))
+                                        {
+                                            <button class="btn btn-secondary">Request Donor</button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-secondary">Requested</button>
+                                    }
+                                </td>
 
-                                            @if (User.IsInRole("Admin"))
-                                            {
-                                                <td>
-                                                    @Html.ActionLink("Delete", "Delete", "Donor", new { id = item.Donor_id }, new { @class = "btn btn-secondary" })
-                                                    @Html.ActionLink("Edit", "CreateOrEdit", "Donor", new { id = item.Donor_id }, new { @class = "btn btn-secondary" })
-                                                </td>
-                                            }
-                                        <td>
-                                            @if (item.RequestStatus == false)
-                                            {
-                                                @using (Html.BeginForm("Request", "Donor", new { Id = item.Donor_id }, FormMethod.Get))
-                                                {
-                                                    <button class="btn btn-secondary">Request Donor</button>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <button class="btn btn-secondary">Requested</button>
-                                            }
-                                        </td>
-
-                                        </tr>
+                            </tr>
                                     }
                                 }
                             }
