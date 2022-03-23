@@ -27,7 +27,7 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                     <form asp-controller="Donor" asp-action="CreateOrEdit" method="post" enctype="multipart/form-data">
-                        <input type="hidden" asp-for="Donor_id" />
+                        <input type="hidden" value="@Model.Donor_id" asp-for="Donor_id" />
                         <input type="hidden" value="@UserManager.GetUserAsync(User).Result.Email" asp-for="Email" />
                         <input type="hidden" value="@UserManager.GetUserAsync(User).Result.Id" asp-for="UserId" />
                         <div class="user-details">
