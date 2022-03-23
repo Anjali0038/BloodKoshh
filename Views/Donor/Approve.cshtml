@@ -26,101 +26,101 @@
         <div class="content">
             @if (SignInManager.IsSignedIn(User))
             {
-                <form asp-controller="Donor" asp-action="Approve" method="post" enctype="multipart/form-data">
-                    <input type="hidden" asp-for="Donor_id" />
-                    @*<input type="hidden" value="@UserManager.GetUserAsync(User).Result.Email" asp-for="Email" />
-                    <input type="hidden" value="@UserManager.GetUserAsync(User).Result.Id" asp-for="UserId" />*@
-                    <div class="user-details">
-                        <div class="input-box">
-                            <span class="details">First Name</span>
-                            <input asp-for="FirstName" type="text" placeholder="Enter your firstname">
-                            <span asp-validation-for="FirstName" class="text-danger"></span>
-                        </div>
-                        <div class="input-box">
-                            <span class="details">Middle Name</span>
-                            <input asp-for="MiddleName" type="text" placeholder="Enter your middlename">
-                            <span asp-validation-for="MiddleName" class="text-danger"></span>
-                        </div>
-                        <div class="input-box">
-                            <span class="details">Last Name</span>
-                            <input asp-for="LastName" type="text" placeholder="Enter your lastname">
-                            <span asp-validation-for="LastName" class="text-danger"></span>
-                        </div>
-                        <div class="input-box">
-                            <span class="details">Phone Number</span>
-                            <input asp-for="PhoneNo" type="text" placeholder="Enter your number">
-                            <span asp-validation-for="PhoneNo" class="text-danger"></span>
-                        </div>
-                        <div class="input-box">
-                            <span class="details"> Address</span>
-                            @*<input asp-for="Address" type="text" placeholder="Enter address" required>*@
-                            <select class="selectgroup" asp-items="ViewBag.Address" asp-for="Address">
-                                <option value="">--Select Address--</option>
-                            </select>
-                        </div>
-                        <div class="input-box">
-                            <span class="details">District </span>
-                            @*<input asp-for="District" type="text" placeholder="Enter District" required>*@
-                            <select class="selectgroup" asp-items="ViewBag.Dist" asp-for="District">
-                                <option value="">--Select District--</option>
-                            </select>
-                        </div>
-                        <div class="input-box">
-                            <span class="details"> Date Of Birth</span>
-                            <input asp-for="Dob" type="date" placeholder="Enter Dob">
-                            <span asp-validation-for="Dob" class="text-danger"></span>
-                        </div>
-                        <div class="input-box">
-                            <span class="details">Blood Group </span>
-                            @*<input asp-for="BloodGroup" type="text" placeholder="Enter Blood group" required>*@
-                            <select class="selectgroup" asp-for="BloodGroup" type="text" placeholder="Enter Blood group">
-                                <option value="">--Select Blood Group--</option>
-                                <option>A+</option>
-                                <option>O+</option>
-                                <option>B+</option>
-                                <option>A-</option>
-                                <option>AB+</option>
-                                <option>O-</option>
-                                <option>B-</option>
-                                <option>AB-</option>
-                            </select>
+            <form asp-controller="Donor" asp-action="Approve" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Donor_id" />
+                <input type="hidden" value="@Model.Email" asp-for="Email" />
+                <input type="hidden" value="@Model.UserId" asp-for="UserId" />
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">First Name</span>
+                        <input asp-for="FirstName" type="text" placeholder="Enter your firstname">
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Middle Name</span>
+                        <input asp-for="MiddleName" type="text" placeholder="Enter your middlename">
+                        <span asp-validation-for="MiddleName" class="text-danger"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Last Name</span>
+                        <input asp-for="LastName" type="text" placeholder="Enter your lastname">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Phone Number</span>
+                        <input asp-for="PhoneNo" type="text" placeholder="Enter your number">
+                        <span asp-validation-for="PhoneNo" class="text-danger"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="details"> Address</span>
+                        @*<input asp-for="Address" type="text" placeholder="Enter address" required>*@
+                        <select class="selectgroup" asp-items="ViewBag.Address" asp-for="Address">
+                            <option value="">--Select Address--</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">District </span>
+                        @*<input asp-for="District" type="text" placeholder="Enter District" required>*@
+                        <select class="selectgroup" asp-items="ViewBag.Dist" asp-for="District">
+                            <option value="">--Select District--</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <span class="details"> Date Of Birth</span>
+                        <input asp-for="Dob" type="date" placeholder="Enter Dob">
+                        <span asp-validation-for="Dob" class="text-danger"></span>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Blood Group </span>
+                        @*<input asp-for="BloodGroup" type="text" placeholder="Enter Blood group" required>*@
+                        <select class="selectgroup" asp-for="BloodGroup" type="text" placeholder="Enter Blood group">
+                            <option value="">--Select Blood Group--</option>
+                            <option>A+</option>
+                            <option>O+</option>
+                            <option>B+</option>
+                            <option>A-</option>
+                            <option>AB+</option>
+                            <option>O-</option>
+                            <option>B-</option>
+                            <option>AB-</option>
+                        </select>
 
-                        </div>
-                        <div class="input-box">
-                            <span class="details"> Health Info</span>
-                            <input asp-for="HealthInfo" type="text" placeholder="Enter your health info">
-                        </div>
-                        <div class="input-box">
-                            <span class="details">Date</span>
-                            <input asp-for="Added_Date" type="date" placeholder="" value="@currentDate">
-                        </div>
-                        <div class="gender-details">
-                            <label class="gender-title" asp-for="Gender_Id" for="">Gender:</label>&nbsp &nbsp
-                            @foreach (var item in ViewBag.Gender)
+                    </div>
+                    <div class="input-box">
+                        <span class="details"> Health Info</span>
+                        <input asp-for="HealthInfo" type="text" placeholder="Enter your health info">
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Date</span>
+                        <input asp-for="Added_Date" type="date" placeholder="" value="@currentDate">
+                    </div>
+                    <div class="gender-details">
+                        <label class="gender-title" asp-for="Gender_Id" for="">Gender:</label>&nbsp &nbsp
+                        @foreach (var item in ViewBag.Gender)
+                        {
+                            <input class="inputtyperadio" type="radio" asp-for="Gender_Id" value="@item.Gender_Id">
+                            if (item.Gender_Name == 'M')
                             {
-                                <input class="inputtyperadio" type="radio" asp-for="Gender_Id" value="@item.Gender_Id">
-                                if (item.Gender_Name == 'M')
-                                {
-                                    <span>Male</span>
-                                }
-                                else if (item.Gender_Name == 'F')
-                                {
-                                    <span>Female</span>
-                                }
-                                else
-                                {
-                                    <span>Others</span>
-                                }
-                                <span>&nbsp &nbsp</span>;
-     }
-                        </div>
-                        @*<input type="hidden" asp-for="UserId" />*@
-                        <input type="hidden" value="true" asp-for="ApprovedStatus" />
+                                <span>Male</span>
+                            }
+                            else if (item.Gender_Name == 'F')
+                            {
+                                <span>Female</span>
+                            }
+                            else
+                            {
+                                <span>Others</span>
+                            }
+                            <span>&nbsp &nbsp</span>;
+ }
                     </div>
-                    <div class="button">
-                        <input type="submit" value="Approve">
-                    </div>
-                </form>
+                    @*<input type="hidden" asp-for="UserId" />*@
+                    <input type="hidden" value="true" asp-for="ApprovedStatus" />
+                </div>
+                <div class="button">
+                    <input type="submit" value="Approve">
+                </div>
+            </form>
             }
         </div>
     </div>
