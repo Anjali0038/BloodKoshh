@@ -43,7 +43,7 @@ namespace BloodKoshh.Models
         public bool ApprovedStatus { get; set; }
         public bool RequestStatus { get; set; }
         public int Count { get; set; }
-
+        public DateTime LastDonated { get; set; }
         public string UserId { get; set; }
         public BloodKoshhUser bloodKoshhUser { get; set; }
     }
