@@ -141,6 +141,52 @@ namespace BloodKosh.Controllers
                 throw ex;
             }
         }
+        [HttpGet]
+        public IActionResult Donate(int? id)
+        {
+            var DistrictList = _context.Districts.ToList();
+            List<SelectListItem> dist = new List<SelectListItem>();
+            foreach (var item in DistrictList)
+            {
+                string data1 = item.Districts;
+                SelectListItem items = new SelectListItem { Value = data1, Text = data1 };
+                dist.Add(items);
+            }
+            ViewBag.Dist = dist;
+            var AddressList = _context.Address.ToList();
+            List<SelectListItem> address = new List<SelectListItem>();
+            foreach (var item in AddressList)
+            {
+                string data = item.Name;
+                SelectListItem items = new SelectListItem { Value = data, Text = data };
+                address.Add(items);
+            }
+            ViewBag.Address = address;
+            DonorViewModel donor = new DonorViewModel();
+            if (id.HasValue)
+            {
+                donor = _iDonorProvider.GetById(id.Value);
+            }
+            ViewBag.Gender = _context.Genders.ToList();
+            return View(donor);
+        }
+        [HttpPost]
+        public IActionResult Donate(DonorViewModel model)
+        {
+            try
+            {
+                _iDonorProvider.Edit(model);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public IActionResult Frequent(DonorViewModel model)
+        {
+            return View();
+        }
         public ActionResult DonorSearch(string val)
         {
             DonorViewModel model = new DonorViewModel();
