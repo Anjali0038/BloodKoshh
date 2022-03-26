@@ -185,7 +185,8 @@ namespace BloodKosh.Controllers
         }
         public IActionResult Frequent(DonorViewModel model)
         {
-            return View();
+            var data = _iDonorProvider.GetFrequentDonors();
+            return View(data);
         }
         public ActionResult DonorSearch(string val)
         {

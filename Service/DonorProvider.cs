@@ -17,6 +17,7 @@ namespace BloodKosh.Service
         DonorViewModel GetById(int id);
         int Edit(DonorViewModel model);
         DonorViewModel GetApprovedDonors();
+        DonorViewModel GetFrequentDonors();
 
 
     }
@@ -90,6 +91,20 @@ namespace BloodKosh.Service
                     list = _mapper.Map<List<Donor>, List<DonorViewModel>>(data);
                     model.DonorList = list;
                 }
+            }
+            return model;
+        }
+        public DonorViewModel GetFrequentDonors()
+        {
+
+            DonorViewModel model = new DonorViewModel();
+            var list = new List<DonorViewModel>();
+            List<Donor> data = _iDonorRepository.GetAll().ToList();
+            data.Sort();
+            foreach (var item in data)
+            {
+                    list = _mapper.Map<List<Donor>, List<DonorViewModel>>(data);
+                    model.DonorList = list;
             }
             return model;
         }
