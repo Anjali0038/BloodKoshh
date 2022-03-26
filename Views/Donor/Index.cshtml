@@ -54,10 +54,10 @@
                                     <th>Action</th>
                                     <th>Approve</th>
                                 }
-                                else if (User.IsInRole("Donor"))
+                                @if (User.IsInRole("Donor"))
                                 {
-                                    <th>Edit</th>
                                     <th>Request</th>
+                                    <th>Edit</th>
                                 }
                                 else
                                 {
@@ -110,7 +110,20 @@
                             <td itemprop="address" data-title="address">@item.Address</td>
                             <td itemprop="blood" data-title="blood">@item.BloodGroup</td>
                             <td itemprop="contact" data-title="blood">@item.PhoneNo</td>
-                           
+
+                            <td>
+                                @if (item.RequestStatus == false)
+                                {
+                                    @using (Html.BeginForm("Request", "Donor", new { Id = item.Donor_id }, FormMethod.Get))
+                                    {
+                                        <button class="btn btn-secondary">Request Donor</button>
+                                    }
+                                }
+                                else
+                                {
+                                    <button class="btn btn-secondary">Requested</button>
+                                }
+                            </td>
                             <td>
                                 @if (User.IsInRole("Donor"))
                                 {
@@ -120,22 +133,7 @@
                                     }
                                 }
                             </td>
-                                    
-                                <td>
-                                    @if (item.RequestStatus == false)
-                                    {
-                                        @using (Html.BeginForm("Request", "Donor", new { Id = item.Donor_id }, FormMethod.Get))
-                                        {
-                                            <button class="btn btn-secondary">Request Donor</button>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <button class="btn btn-secondary">Requested</button>
-                                    }
-                                </td>
-
-                            </tr>
+                        </tr>
                                     }
                                 }
                             }
