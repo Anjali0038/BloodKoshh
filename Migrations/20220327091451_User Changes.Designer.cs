@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BloodKoshh.Migrations
 {
     [DbContext(typeof(BloodKoshhContext))]
-    [Migration("20220317025455_model changes")]
-    partial class modelchanges
+    [Migration("20220327091451_User Changes")]
+    partial class UserChanges
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -134,20 +134,20 @@ namespace BloodKoshh.Migrations
                     b.ToTable("BloodBanks");
                 });
 
-            modelBuilder.Entity("BloodKoshh.Models.District", b =>
+            modelBuilder.Entity("BloodKoshh.Models.Districts", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Districts")
+                    b.Property<string>("District")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte>("Municipality")
                         .HasColumnType("tinyint");
 
-                    b.Property<short>("TotalLocalBodies")
+                    b.Property<short>("Total_Local_Bodies")
                         .HasColumnType("smallint");
 
                     b.HasKey("Id");
@@ -204,6 +204,9 @@ namespace BloodKoshh.Migrations
 
                     b.Property<string>("HealthInfo")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastDonated")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")
                         .IsRequired()

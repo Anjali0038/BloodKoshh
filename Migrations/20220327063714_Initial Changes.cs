@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BloodKoshh.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialChanges : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,32 +36,6 @@ namespace BloodKoshh.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BloodBanks",
                 columns: table => new
                 {
@@ -69,7 +43,9 @@ namespace BloodKoshh.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BloodBankName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Phone_No = table.Column<double>(type: "float", nullable: false)
+                    Phone_No = table.Column<double>(type: "float", nullable: false),
+                    ApprovedStatus = table.Column<bool>(type: "bit", nullable: false),
+                    RequestStatus = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,9 +58,9 @@ namespace BloodKoshh.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Districts = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    District = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Municipality = table.Column<byte>(type: "tinyint", nullable: false),
-                    TotalLocalBodies = table.Column<short>(type: "smallint", nullable: false)
+                    Total_Local_Bodies = table.Column<short>(type: "smallint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,9 +76,6 @@ namespace BloodKoshh.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Pwd = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Confirmpwd = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BloodGroup = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNo = table.Column<double>(type: "float", nullable: false),
@@ -112,7 +85,12 @@ namespace BloodKoshh.Migrations
                     Dob = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender_Id = table.Column<int>(type: "int", nullable: false),
                     Added_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HealthInfo = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    HealthInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApprovedStatus = table.Column<bool>(type: "bit", nullable: false),
+                    RequestStatus = table.Column<bool>(type: "bit", nullable: false),
+                    Count = table.Column<int>(type: "int", nullable: false),
+                    LastDonated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -128,7 +106,8 @@ namespace BloodKoshh.Migrations
                     EventDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EventName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNo = table.Column<double>(type: "float", nullable: false)
+                    PhoneNo = table.Column<double>(type: "float", nullable: false),
+                    ApprovedStatus = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -157,17 +136,12 @@ namespace BloodKoshh.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Pwd = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Confirmpwd = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BloodGroup = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNo = table.Column<double>(type: "float", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(1)", nullable: false),
-                    Added_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PhoneNo = table.Column<double>(type: "float", nullable: false),
+                    BloodGroup = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RequestReason = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Requeststatus = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -192,6 +166,53 @@ namespace BloodKoshh.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    donorid = table.Column<int>(type: "int", nullable: false),
+                    seekerid = table.Column<int>(type: "int", nullable: false),
+                    bloodbankid = table.Column<int>(type: "int", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_BloodBanks_bloodbankid",
+                        column: x => x.bloodbankid,
+                        principalTable: "BloodBanks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Donors_donorid",
+                        column: x => x.donorid,
+                        principalTable: "Donors",
+                        principalColumn: "Donor_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Seekers_seekerid",
+                        column: x => x.seekerid,
+                        principalTable: "Seekers",
+                        principalColumn: "Seeker_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -313,6 +334,22 @@ namespace BloodKoshh.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_bloodbankid",
+                table: "AspNetUsers",
+                column: "bloodbankid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_donorid",
+                table: "AspNetUsers",
+                column: "donorid",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_seekerid",
+                table: "AspNetUsers",
+                column: "seekerid");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -341,13 +378,7 @@ namespace BloodKoshh.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "BloodBanks");
-
-            migrationBuilder.DropTable(
                 name: "Districts");
-
-            migrationBuilder.DropTable(
-                name: "Donors");
 
             migrationBuilder.DropTable(
                 name: "Events");
@@ -356,13 +387,19 @@ namespace BloodKoshh.Migrations
                 name: "Genders");
 
             migrationBuilder.DropTable(
-                name: "Seekers");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "BloodBanks");
+
+            migrationBuilder.DropTable(
+                name: "Donors");
+
+            migrationBuilder.DropTable(
+                name: "Seekers");
         }
     }
 }

@@ -132,20 +132,20 @@ namespace BloodKoshh.Migrations
                     b.ToTable("BloodBanks");
                 });
 
-            modelBuilder.Entity("BloodKoshh.Models.District", b =>
+            modelBuilder.Entity("BloodKoshh.Models.Districts", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Districts")
+                    b.Property<string>("District")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte>("Municipality")
                         .HasColumnType("tinyint");
 
-                    b.Property<short>("TotalLocalBodies")
+                    b.Property<short>("Total_Local_Bodies")
                         .HasColumnType("smallint");
 
                     b.HasKey("Id");
