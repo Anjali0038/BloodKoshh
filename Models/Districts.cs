@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace BloodKoshh.Models
 {
-    public class District
+    public class Districts
     {
         public int Id { get; set; }
-        public string Districts { get; set; }
+        public string District { get; set; }
         public byte Municipality { get; set; }
-        public short TotalLocalBodies { get; set; }
+        public short Total_Local_Bodies { get; set; }
     }
 }
