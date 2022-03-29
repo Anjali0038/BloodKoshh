@@ -32,6 +32,6 @@ namespace BloodKoshh.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<BloodBank> BloodBanks { get; set; }
         public DbSet<Address> Address { get; set; }
-        public DbSet<District> Districts { get; set; }
+        public DbSet<Districts> Districts { get; set; }
     }
 }
