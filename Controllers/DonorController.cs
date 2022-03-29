@@ -52,7 +52,7 @@ namespace BloodKosh.Controllers
             List<SelectListItem> dist = new List<SelectListItem>();
             foreach (var item in DistrictList)
             {
-                string data1 = item.Districts;
+                string data1 = item.District;
                 SelectListItem items = new SelectListItem { Value = data1, Text = data1 };
                 dist.Add(items);
             }
@@ -106,7 +106,7 @@ namespace BloodKosh.Controllers
             List<SelectListItem> dist = new List<SelectListItem>();
             foreach (var item in DistrictList)
             {
-                string data1 = item.Districts;
+                string data1 = item.District;
                 SelectListItem items = new SelectListItem { Value = data1, Text = data1 };
                 dist.Add(items);
             }
@@ -148,7 +148,7 @@ namespace BloodKosh.Controllers
             List<SelectListItem> dist = new List<SelectListItem>();
             foreach (var item in DistrictList)
             {
-                string data1 = item.Districts;
+                string data1 = item.District;
                 SelectListItem items = new SelectListItem { Value = data1, Text = data1 };
                 dist.Add(items);
             }
