@@ -33,5 +33,9 @@ namespace BloodKoshh.Data
         public DbSet<BloodBank> BloodBanks { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<Districts> Districts { get; set; }
+        public DbSet<Watchlist> Watchlists { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<NotificationUser> UserNotifications { get; set; }
+
     }
 }
