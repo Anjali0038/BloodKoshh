@@ -1,5 +1,8 @@
-﻿using BloodKoshh.Models;
+﻿using BloodKoshh.Data;
+using BloodKoshh.Models;
+using BloodKoshh.Service;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -13,15 +16,54 @@ namespace BloodKosh.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private BloodKoshhContext _context;
+        
+        public HomeController(ILogger<HomeController> logger, BloodKoshhContext context)
         {
             _logger = logger;
+            _context = context;
+
         }
 
         public IActionResult Index()
         {
+            ViewData["donorinfoid"] = new SelectList(_context.Donors, "Donor_id", "BloodGroup");
+            ViewData["AddressId"] = new SelectList(_context.Address, "Id", "Name");
+
             return View();
         }
+        [HttpPost]
+        public IActionResult SearchNearestLocation(UserViewModel user)
+        {
+            var address = _context.Address.Where(x => x.Id == user.AddressId).FirstOrDefault();
+            var donor = _context.Donors.Where(x => x.Donor_id == user.DonorId).ToList();
+            var allVendors = _context.DonorLocation.ToList();
+            ViewData["donorinfoid"] = new SelectList(_context.Donors, "Donor_id", "BloodGroup");
+            List<Locationinf> locationinfo = new List<Locationinf>();
+            foreach (var item in allVendors)
+            {
+                NearestNeighbourProvider nearestNeighbour = new NearestNeighbourProvider();
+                var pointer = nearestNeighbour.getDistanceFromLatLonInKm(address.Latitude, address.Longitude, item.Latitude, item.Longitude);
+                locationinfo.Add(new Locationinf
+                {
+                    LocationId = item.LocationId,
+                    address = item.LocationName,
+                    pointer = pointer
+                });
+                //get nearest location (address lat, address lon, item.lat, item.long)
+                //pointer, 
+            }
+
+            locationinfo = locationinfo.OrderBy(x => x.pointer).Take(5).ToList();
+
+            //locationinfo.Sort(x => x.pointer);
+
+            ViewData["AddressId"] = new SelectList(_context.Address, "Id", "Name");
+
+            return View(locationinfo);
+        }
+
+
 
         public IActionResult Privacy()
         {
@@ -33,5 +75,11 @@ namespace BloodKosh.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+    }
+    public class Locationinf
+    {
+        public double pointer { get; set; }
+        public string address { get; set; }
+        public int LocationId { get; set; }
     }
 }
