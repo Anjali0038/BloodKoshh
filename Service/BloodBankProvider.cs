@@ -14,6 +14,8 @@ namespace BloodKosh.Service
         void DeleteBloodBank(int id);
         BloodBankViewModel GetList();
         BloodBankViewModel GetById(int id);
+        BloodBankViewModel GetApprovedBanks();
+        int Edit(BloodBankViewModel model);
     }
     public class BloodBankProvider : IBloodBankProvider
     {
@@ -59,6 +61,29 @@ namespace BloodKosh.Service
             list = _mapper.Map<List<BloodBank>, List<BloodBankViewModel>>(data);
             model.BankList = list;
             return model;
+        }
+        public BloodBankViewModel GetApprovedBanks()
+        {
+
+            BloodBankViewModel model = new BloodBankViewModel();
+            var list = new List<BloodBankViewModel>();
+            List<BloodBank> data = _iBloodBankRepository.GetAll().ToList();
+            foreach (var item in data)
+            {
+                if (item.ApprovedStatus == true)
+                {
+                    list = _mapper.Map<List<BloodBank>, List<BloodBankViewModel>>(data);
+                    model.BankList = list;
+                }
+            }
+            return model;
+        }
+        public int Edit(BloodBankViewModel model)
+        {
+            BloodBank bank = new BloodBank();
+            bank = _mapper.Map<BloodBank>(model);
+            _iBloodBankRepository.Update(bank);
+            return 200;
         }
     }
 }

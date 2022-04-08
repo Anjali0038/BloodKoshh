@@ -8,6 +8,7 @@ namespace BloodKoshh.Repository
 {
     public interface IRepository<T> where T : class
     {
+        bool CheckIfAlreadyExists(string userid, string email);
         int Count();
         int Count(Expression<Func<T, bool>> predicate);
 

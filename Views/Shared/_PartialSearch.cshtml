@@ -1,0 +1,13 @@
+﻿@model BloodKoshh.Models.EventViewModel;
+@{
+    Layout = null;
+}
+@foreach (var item in Model.EventList)
+{
+    <tr>
+        <td>@item.EventId</td>
+        <td>@item.EventName</td>
+        <td>@item.PhoneNo</td>
+        <td>@item.Location</td>
+    </tr>
+}

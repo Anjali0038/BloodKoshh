@@ -17,7 +17,7 @@
 </head>
 <body>
     <div class="register-container">
-        <h1>Request Event</h1>
+        <h1>Approve Event</h1>
         <div class="content">
             <form asp-controller="Event" asp-action="CreateOrEdit" method="post" enctype="multipart/form-data">
                 <input type="hidden" asp-for="EventId" />
@@ -29,8 +29,9 @@
                     </div>
                     <div class="input-box">
                         <span class="details">Location</span>
-                        <input asp-for="Location" type="text" placeholder="Enter event Location">
-                        <span asp-validation-for="Location" class="text-danger"></span>
+                        <select class="selectgroup" asp-items="ViewBag.Address" asp-for="Location">
+                            <option value="">--Select Location--</option>
+                        </select>
                     </div>
                     <div class="input-box">
                         <span class="details">Phone Number</span>

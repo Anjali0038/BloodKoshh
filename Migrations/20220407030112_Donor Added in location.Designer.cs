@@ -4,14 +4,16 @@ using BloodKoshh.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BloodKoshh.Migrations
 {
     [DbContext(typeof(BloodKoshhContext))]
-    partial class BloodKoshhContextModelSnapshot : ModelSnapshot
+    [Migration("20220407030112_Donor Added in location")]
+    partial class DonorAddedinlocation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,6 +169,7 @@ namespace BloodKoshh.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("ApprovedStatus")
@@ -186,9 +189,6 @@ namespace BloodKoshh.Migrations
                     b.Property<string>("Dob")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("DonorLocationLocationId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -215,9 +215,6 @@ namespace BloodKoshh.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LocationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("MiddleName")
                         .HasColumnType("nvarchar(max)");
 
@@ -235,8 +232,6 @@ namespace BloodKoshh.Migrations
 
                     b.HasKey("Donor_id");
 
-                    b.HasIndex("DonorLocationLocationId");
-
                     b.HasIndex("bloodKoshhUserId");
 
                     b.ToTable("Donors");
@@ -249,6 +244,9 @@ namespace BloodKoshh.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("Donor_id")
+                        .HasColumnType("int");
+
                     b.Property<float>("Latitude")
                         .HasColumnType("real");
 
@@ -259,6 +257,8 @@ namespace BloodKoshh.Migrations
                         .HasColumnType("real");
 
                     b.HasKey("LocationId");
+
+                    b.HasIndex("Donor_id");
 
                     b.ToTable("DonorLocation");
                 });
@@ -390,15 +390,7 @@ namespace BloodKoshh.Migrations
                     b.Property<bool>("Requeststatus")
                         .HasColumnType("bit");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("bloodKoshhUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Seeker_Id");
-
-                    b.HasIndex("bloodKoshhUserId");
 
                     b.ToTable("Seekers");
                 });
@@ -568,17 +560,20 @@ namespace BloodKoshh.Migrations
 
             modelBuilder.Entity("BloodKoshh.Models.Donor", b =>
                 {
-                    b.HasOne("BloodKoshh.Models.DonorLocation", "DonorLocation")
-                        .WithMany()
-                        .HasForeignKey("DonorLocationLocationId");
-
                     b.HasOne("BloodKoshh.Areas.Identity.Data.BloodKoshhUser", "bloodKoshhUser")
                         .WithMany()
                         .HasForeignKey("bloodKoshhUserId");
 
                     b.Navigation("bloodKoshhUser");
+                });
 
-                    b.Navigation("DonorLocation");
+            modelBuilder.Entity("BloodKoshh.Models.DonorLocation", b =>
+                {
+                    b.HasOne("BloodKoshh.Models.Donor", "Donor")
+                        .WithMany()
+                        .HasForeignKey("Donor_id");
+
+                    b.Navigation("Donor");
                 });
 
             modelBuilder.Entity("BloodKoshh.Models.NotificationUser", b =>
@@ -596,15 +591,6 @@ namespace BloodKoshh.Migrations
                     b.Navigation("BloodKoshhUser");
 
                     b.Navigation("Notification");
-                });
-
-            modelBuilder.Entity("BloodKoshh.Models.Seeker", b =>
-                {
-                    b.HasOne("BloodKoshh.Areas.Identity.Data.BloodKoshhUser", "bloodKoshhUser")
-                        .WithMany()
-                        .HasForeignKey("bloodKoshhUserId");
-
-                    b.Navigation("bloodKoshhUser");
                 });
 
             modelBuilder.Entity("BloodKoshh.Models.Watchlist", b =>

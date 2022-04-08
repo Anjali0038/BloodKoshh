@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace BloodKoshh.Models
 {
-    public class Address
+    public class DonorLocation
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        [Key]
+        public int LocationId { get; set; }
+        public string LocationName { get; set; }
         public float Latitude { get; set; }
         public float Longitude { get; set; }
     }

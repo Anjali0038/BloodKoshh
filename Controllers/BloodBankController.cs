@@ -7,10 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BloodKosh.Controllers
 {
-    [Authorize(Roles = "BloodBank,Admin")]
+    //[Authorize(Roles = "BloodBank,Admin")]
     public class BloodBankController : Controller
     {
         private readonly IBloodBankProvider _iBloodBankProvider;
@@ -29,7 +30,7 @@ namespace BloodKosh.Controllers
             if (searchText != "" && searchText != null)
             {
                 bank.BankList = (from s in _context.BloodBanks
-                                   where s.BloodBankName.Contains(searchText) && bank.Location.Contains(searchText)
+                                   where s.BloodBankName.Contains(searchText) && s.Location.Contains(searchText)
                                  select new BloodBankViewModel
                                    {
                                        Id = s.Id,
@@ -46,6 +47,15 @@ namespace BloodKosh.Controllers
         [HttpGet]
         public IActionResult CreateOrEdit(int? id)
         {
+            var AddressList = _context.DonorLocation.ToList();
+            List<SelectListItem> address = new List<SelectListItem>();
+            foreach (var item in AddressList)
+            {
+                string data = item.LocationName;
+                SelectListItem items = new SelectListItem { Value = data, Text = data };
+                address.Add(items);
+            }
+            ViewBag.Address = address;
             BloodBankViewModel bank = new BloodBankViewModel();
             if (id.HasValue)
             {
@@ -72,13 +82,51 @@ namespace BloodKosh.Controllers
             _iBloodBankProvider.DeleteBloodBank(id);
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public IActionResult ApprovedBloodBanks()
+        {
+            var data = _iBloodBankProvider.GetApprovedBanks();
+            return View(data);
+        }
+        [HttpGet]
+        public IActionResult Approve(int? id)
+        {
+            var AddressList = _context.DonorLocation.ToList();
+            List<SelectListItem> address = new List<SelectListItem>();
+            foreach (var item in AddressList)
+            {
+                string data = item.LocationName;
+                SelectListItem items = new SelectListItem { Value = data, Text = data };
+                address.Add(items);
+            }
+            ViewBag.Address = address;
+            BloodBankViewModel bank = new BloodBankViewModel();
+            if (id.HasValue)
+            {
+                bank = _iBloodBankProvider.GetById(id.Value);
+            }
+            return View(bank);
+        }
+        [HttpPost]
+        public IActionResult Approve(BloodBankViewModel model)
+        {
+            try
+            {
+                _iBloodBankProvider.Edit(model);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         [AllowAnonymous]
         public ActionResult BloodBankSearch(string val)
         {
             BloodBankViewModel model = new BloodBankViewModel();
 
             model.BankList = (from s in _context.BloodBanks
-                              where s.BloodBankName.Contains(val)
+                              where s.Location.Contains(val)
                               select new BloodBankViewModel
                               {
                                   Id = s.Id,
@@ -86,7 +134,7 @@ namespace BloodKosh.Controllers
                                   Location = s.Location,
                                   Phone_No = s.Phone_No,
                               }).ToList();
-            return PartialView(model);
+            return View(model);
         }
 
         [AllowAnonymous]
@@ -94,10 +142,10 @@ namespace BloodKosh.Controllers
         public JsonResult AutoComplete(string prefix)
         {
             var banks = (from bank in this._context.BloodBanks
-                         where bank.BloodBankName.StartsWith(prefix) && bank.Location.StartsWith(prefix)
+                         where bank.Location.StartsWith(prefix) 
                          select new
                          {
-                             label = bank.BloodBankName,
+                             label = bank.Location,
                              val = bank.Id
                          }).ToList();
 

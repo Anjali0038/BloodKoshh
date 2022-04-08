@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BloodKosh.Controllers
 {
@@ -45,7 +46,15 @@ namespace BloodKosh.Controllers
         [HttpGet]
         public IActionResult CreateOrEdit(int? id)
         {
-            //ViewBag.Gender = _context.Genders.ToList();
+            var AddressList = _context.DonorLocation.ToList();
+            List<SelectListItem> address = new List<SelectListItem>();
+            foreach (var item in AddressList)
+            {
+                string data = item.LocationName;
+                SelectListItem items = new SelectListItem { Value = data, Text = data };
+                address.Add(items);
+            }
+            ViewBag.Address = address;
             SeekerViewModel emp = new SeekerViewModel();
             if (id.HasValue)
             {

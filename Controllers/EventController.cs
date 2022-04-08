@@ -27,14 +27,14 @@ namespace BloodKosh.Controllers
             if (searchText != "" && searchText != null)
             {
                 events.EventList = (from s in _context.Events
-                                     where s.EventName.Contains(searchText)
-                                     select new EventViewModel
-                                     {
-                                         EventId = s.EventId,
-                                         EventDate = s.EventDate,
-                                         EventName = s.EventName,
-                                         Location = s.Location
-                                     }).ToList();
+                                    where s.EventName.Contains(searchText)
+                                    select new EventViewModel
+                                    {
+                                        EventId = s.EventId,
+                                        EventDate = s.EventDate,
+                                        EventName = s.EventName,
+                                        Location = s.Location
+                                    }).ToList();
             }
             else
                 events = _iEventProvider.GetList();
@@ -43,6 +43,15 @@ namespace BloodKosh.Controllers
         [HttpGet]
         public IActionResult CreateOrEdit(int? id)
         {
+            var AddressList = _context.DonorLocation.ToList();
+            List<SelectListItem> address = new List<SelectListItem>();
+            foreach (var item in AddressList)
+            {
+                string data = item.LocationName;
+                SelectListItem items = new SelectListItem { Value = data, Text = data };
+                address.Add(items);
+            }
+            ViewBag.Address = address;
             EventViewModel model = new EventViewModel();
             if (id.HasValue)
             {
@@ -77,6 +86,15 @@ namespace BloodKosh.Controllers
         [HttpGet]
         public IActionResult Approve(int? id)
         {
+            var AddressList = _context.DonorLocation.ToList();
+            List<SelectListItem> address = new List<SelectListItem>();
+            foreach (var item in AddressList)
+            {
+                string data = item.LocationName;
+                SelectListItem items = new SelectListItem { Value = data, Text = data };
+                address.Add(items);
+            }
+            ViewBag.Address = address;
             EventViewModel model = new EventViewModel();
             if (id.HasValue)
             {
@@ -97,33 +115,32 @@ namespace BloodKosh.Controllers
                 throw ex;
             }
         }
-        public ActionResult EventSearch(string val)
+        public ActionResult Search(string val)
         {
             EventViewModel model = new EventViewModel();
 
             model.EventList = (from s in _context.Events
-                                where s.EventName.Contains(val)
-                                select new EventViewModel
-                                {
-                                    EventId = s.EventId,
-                                    EventName = s.EventName,
-                                    EventDate = s.EventDate,
-                                    Location = s.Location
-                                }).ToList();
-            return PartialView(model);
+                                  where s.Location.Contains(val)
+                                  select new EventViewModel
+                                  {
+                                      EventId = s.EventId,
+                                      EventName = s.EventName,
+                                      Location = s.Location,
+                                      PhoneNo = s.PhoneNo
+                                  }).ToList();
+            return View(model);
         }
         [HttpPost]
         public JsonResult AutoComplete(string prefix)
         {
-            var events = (from user in this._context.Events
-                         where user.EventName.StartsWith(prefix)
+            var users = (from user in this._context.Events
+                         where user.Location.StartsWith(prefix)
                          select new
                          {
-                             label = user.EventName,
+                             label = user.Location,
                              val = user.EventId
                          }).ToList();
-
-            return Json(events);
+            return Json(users);
         }
     }
 }

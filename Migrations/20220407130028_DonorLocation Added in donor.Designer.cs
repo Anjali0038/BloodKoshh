@@ -4,14 +4,16 @@ using BloodKoshh.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BloodKoshh.Migrations
 {
     [DbContext(typeof(BloodKoshhContext))]
-    partial class BloodKoshhContextModelSnapshot : ModelSnapshot
+    [Migration("20220407130028_DonorLocation Added in donor")]
+    partial class DonorLocationAddedindonor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,6 +169,7 @@ namespace BloodKoshh.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("ApprovedStatus")

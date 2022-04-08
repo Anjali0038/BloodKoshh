@@ -1,0 +1,14 @@
+﻿@model BloodKoshh.Models.DonorViewModel;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@foreach (var item in Model.DonorList)
+{
+<tr>
+    <td><span style="color: #961e1b;"><b>@item.FirstName @item.MiddleName @item.LastName</span></td>
+    <td>@item.BloodGroup</td>
+    <td>@item.Address</td>
+    <td>@item.PhoneNo</td>
+</tr>
+}

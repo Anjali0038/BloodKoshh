@@ -1,0 +1,51 @@
+﻿@model BloodKoshh.Models.DonorViewModel;
+@{
+    var data = ViewBag.Gender;
+    var data2 = ViewBag.Dist;
+    var data3 = ViewBag.Address;
+    DateTime date = DateTime.Now;
+    string currentDate = DateTime.UtcNow.ToString("yyyy-MM-dd");
+    Layout = null;
+}
+@using Microsoft.AspNetCore.Identity
+@using BloodKoshh.Areas.Identity.Data;
+@inject SignInManager<BloodKoshhUser> SignInManager
+@inject UserManager<BloodKoshhUser> UserManager
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="~/css/register.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="register-container">
+        <h1>Are you sure to request?</h1>
+        <div class="content">
+            @if (SignInManager.IsSignedIn(User))
+            {
+            <form asp-controller="Donor" asp-action="Request" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Donor_id" />
+                <input type="hidden" value="@Model.Email" asp-for="Email" />
+                <input type="hidden" value="@Model.UserId" asp-for="UserId" />
+                <input type="hidden" value="@Model.FirstName" asp-for="UserId" />
+                <input type="hidden" value="@Model.MiddleName" asp-for="UserId" />
+                <input type="hidden" value="@Model.LastName" asp-for="UserId" />
+                <input type="hidden" value="@Model.PhoneNo" asp-for="UserId" />
+                <input type="hidden" value="@Model.LocationId" asp-for="UserId" />
+                <input type="hidden" value="@Model.District" asp-for="UserId" />
+                <input type="hidden" value="@Model.Dob" asp-for="UserId" />
+                <input type="hidden" value="@Model.BloodGroup" asp-for="UserId" />
+                <input type="hidden" value="@Model.HealthInfo" asp-for="UserId" />
+                <input type="hidden" value="@Model.Gender" asp-for="UserId" />
+                <input type="hidden" value="@Model.Added_Date" asp-for="UserId" />
+                <input type="hidden" value="@Model.ApprovedStatus" asp-for="UserId" />
+                <input type="hidden" value="true" asp-for="RequestStatus" />
+                <div class="button">
+                    <input type="submit" value="Request">
+                </div>
+            </form>
+            }
+        </div>
+    </div>
+</body>

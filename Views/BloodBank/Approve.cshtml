@@ -7,16 +7,12 @@
     <title>Registration Page</title>
     <link rel="stylesheet" href="~/css/register.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 </head>
-
-<body>
+<body style="background-color:white">
     <div class="register-container" style="margin:130px; margin-left:270px">
-        <h1>Blood Bank Registration</h1>
+        <h1>Blood Bank Approve</h1>
         <div class="content">
-            <form asp-controller="BloodBank" asp-action="CreateOrEdit" method="post" enctype="multipart/form-data">
+            <form asp-controller="BloodBank" asp-action="Approve" method="post" enctype="multipart/form-data">
                 <input type="hidden" asp-for="Id" />
                 <div class="user-details">
                     <div class="input-box">
@@ -34,9 +30,10 @@
                         <span class="details">Phone Number</span>
                         <input asp-for="Phone_No" type="text" placeholder="Enter Phone No." required>
                     </div>
+                    <input type="hidden" value="true" asp-for="ApprovedStatus" />
                 </div>
                 <div class="button">
-                    <input type="submit" value="Add Blood Bank">
+                    <input type="submit" value="Approve Blood Bank">
                 </div>
             </form>
         </div>

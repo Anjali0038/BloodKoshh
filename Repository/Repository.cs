@@ -16,6 +16,12 @@ namespace BloodKoshh.Repository
         {
             _context = context;
         }
+        public bool CheckIfAlreadyExists(string userid, string email)
+        {
+            //return _context.Users.Any(w => w.Email == email);
+            return _context.Donors.Any(w => w.UserId.Equals(userid) && w.Email == email);
+
+        }
         public virtual void Add(T entity)
         {
             try

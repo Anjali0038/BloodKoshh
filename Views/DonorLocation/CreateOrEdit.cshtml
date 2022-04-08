@@ -1,0 +1,33 @@
+﻿@model BloodKoshh.Models.DonorLocation;
+@{
+    var data3 = ViewBag.Address;
+    
+}
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="~/css/register.css">
+    <link rel="stylesheet" href="~/css/style.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+        <body>
+            <div class="register-container">
+                <h1>Add your Details</h1>
+                <div class="content">
+                    <form asp-controller="DonorLocation" asp-action="CreateOrEdit" method="post" enctype="multipart/form-data">
+                        <input type="hidden" value="@Model.LocationId" asp-for="LocationId" />
+                        <input type="hidden" value="@Model.Longitude" asp-for="Longitude" />
+                        <input type="hidden" value="@Model.Latitude" asp-for="Latitude" />
+                        <div class="input-box">
+                            <span class="details"> Address</span>
+                            <select class="selectgroup" asp-items="ViewBag.Address" asp-for="LocationName">
+                                <option value="">--Select Address--</option>
+                            </select>
+                        </div>
+                    </form>
+                    }
+                    </div>
+            </div>
+        </body>

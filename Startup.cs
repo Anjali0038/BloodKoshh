@@ -108,7 +108,9 @@ namespace BloodKoshh
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            //app.UseSignalR(route => {
+            //    route.MapHub<SignalServer>("signalServer");
+            //});
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

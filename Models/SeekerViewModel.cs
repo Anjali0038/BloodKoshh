@@ -28,6 +28,7 @@ namespace BloodKoshh.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
         public bool Requeststatus { get; set; }
+        public string UserId { get; set; }
         public List<SeekerViewModel> SeekerList { get; set; }
         public SeekerViewModel()
         {

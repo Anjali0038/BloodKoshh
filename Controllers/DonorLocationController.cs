@@ -1,6 +1,7 @@
 ﻿using BloodKoshh.Data;
 using BloodKoshh.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,15 @@ namespace BloodKoshh.Controllers
         // GET: VendorLocations/Create
         public IActionResult Create()
         {
+            var AddressList = _context.DonorLocation.ToList();
+            List<SelectListItem> address = new List<SelectListItem>();
+            foreach (var item in AddressList)
+            {
+                string data = item.LocationName;
+                SelectListItem items = new SelectListItem { Value = data, Text = data };
+                address.Add(items);
+            }
+            ViewBag.Address = address;
             return View();
         }
 

@@ -25,30 +25,50 @@
 </head>
 <body>
     <div class="donor-details-panel content">
-        <div style="padding:130px" class="container content-panel">
+        <div style="padding:100px" class="container content-panel">
             @if (User.IsInRole("BloodBank"))
             {
                 @*<button asp-controller="BloodBank" asp-action="CreateOrEdit"> Add/Manage Blood bank Details</button>*@
-                @Html.ActionLink("Add/Manage Blood bank Details", "CreateOrEdit", "BloodBank", new { id = @UserManager.GetUserAsync(User).Result.Id }, new { @class = "btn btn-secondary" })
-
+                @*@Html.ActionLink("Add/Manage Blood bank Details", "CreateOrEdit", "BloodBank", new { id = @UserManager.GetUserAsync(User).Result.Id }, new { @class = "btn btn-secondary" })*@
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 search-field">
+                        <form method="get" asp-controller="BLoodBank" asp-action="Index">
+                            <input type="hidden" value="@Model.Id" asp-for="Id" />
+                            @*<input type="hidden" asp-for="UserId" />*@
+                            <button style="margin: 0; background: #d14461;" class="btn search-button form-control" asp-controller="BloodBank" asp-action="CreateOrEdit"> Add/Manage your Details</button>
+                        </form>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-6 search-field">
+                    </div>
+                    <div class="col-md-4 col-sm-4  search-field">
+                        <form method="get" asp-controller="BloodBank" asp-action="Index" class="main-container-search-section-form">
+                            <input id="txtVal" type="text" placeholder="Enter Location" name="searchText" style="margin: 0; height:40px;">
+                            <input id="txt" type="hidden" asp-for="Id" />
+                            <button id="btnSearch" type="submit" style="margin: 0; width:80px; height:37px; background: #d14461;" class="btn search-button form-control hidden-sm">Search </button>
+                        </form>
+                    </div>
+                </div>
             }
-            <div class="row">
-                <div class="col-md-4 col-sm-4 search-field">
-                    <p style="margin: 0; background: #d14461;" class="btn search-button form-control">
-                        search <span class="hidden-sm">blood</span> Banks
-                    </p>
+            else
+            {
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 search-field">
+                        <p style="margin: 0; background: #d14461;" class="btn search-button form-control">
+                            Blood <span class="hidden-sm">Bank</span> Lists
+                        </p>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-6 search-field">
+                    </div>
+                    <div class="col-md-4 col-sm-4  search-field">
+                        <form method="get" asp-controller="BloodBank" asp-action="Index" class="main-container-search-section-form">
+                            <input id="txtVal" type="text" placeholder="Search" name="searchText" style="margin: 0; height:40px;">
+                            <input id="txt" type="hidden" asp-for="Id" />
+                            <button id="btnSearch" type="submit" style="margin: 0; width:80px; height:37px; background: #d14461;" class="btn search-button form-control hidden-sm">Search</button>
+                        </form>
+                    </div>
+
                 </div>
-                <div class="col-md-4 col-sm-4 col-xs-6 search-field">
-                </div>
-                <div class="col-md-4 col-sm-4  search-field">
-                    <select name="txtBloodGroup" class="blood-group form-control" id="txtBloodGroup">
-                        <option selected value="all">Address</option>
-                        <option value="Patan">
-                            Patan
-                        </option>
-                    </select>
-                </div>
-            </div>
+            }
             <div class="donor-list">
                 <div class="row">
                     <div class="col-md-12 donor-details" id="donorDetail">
@@ -64,46 +84,61 @@
                                         <th>Action</th>
                                         <th>Approve</th>
                                     }
-                                    <th>Request</th>
+                                    @*<th>Request</th>*@
                                 </tr>
                             </thead>
                             <tbody id="donorDetailsData">
                                 @{ int i = 1;}
-                                @foreach (var item in Model.BankList)
+                                @if (User.IsInRole("Admin"))
                                 {
-                                <tr>
-                                    <td data-title="id">@(i++)</td>
-                                    <td itemprop="name" data-title="name" class="donor-name"> @item.BloodBankName</td>
-                                    <td itemprop="address" data-title="address">@item.Location</td>
-                                    <td itemprop="blood" data-title="blood">@item.Phone_No</td>
-                                    @*@if (item.Email == UserManager.GetUserAsync(User).Result.Email)
-        {*@
-                                    @if (User.IsInRole("Admin"))
+                                    @foreach (var item in Model.BankList)
                                     {
-                                        <td>
-                                            @Html.ActionLink("Delete", "Delete", "BloodBank", new { id = item.Id }, new { @class = "btn btn-secondary" })
-                                            @Html.ActionLink("Edit", "CreateOrEdit", "BloodBank", new { id = item.Id }, new { @class = "btn btn-secondary" })
-                                        </td>
-                                        <td>
-                                            @if (item.ApprovedStatus == false)
+                                        <tr>
+                                            <td data-title="id">@(i++)</td>
+                                            <td itemprop="name" data-title="name" class="donor-name"> @item.BloodBankName</td>
+                                            <td itemprop="address" data-title="address">@item.Location</td>
+                                            <td itemprop="blood" data-title="blood">@item.Phone_No</td>
+                                            @*@if (item.Email == UserManager.GetUserAsync(User).Result.Email)
+                    {*@
+                                            @if (User.IsInRole("Admin"))
                                             {
-                                                @using (Html.BeginForm("Approve", "BloodBank", new { Id = item.Id }, FormMethod.Get))
-                                                {
-                                                    <button class="btn btn-secondary">Approve Blood Bank</button>
-                                                }
+                                                <td>
+                                                    @Html.ActionLink("Delete", "Delete", "BloodBank", new { id = item.Id }, new { @class = "btn btn-secondary" })
+                                                    @Html.ActionLink("Edit", "CreateOrEdit", "BloodBank", new { id = item.Id }, new { @class = "btn btn-secondary" })
+                                                </td>
+                                                <td>
+                                                    @if (item.ApprovedStatus == false)
+                                                    {
+                                                        @using (Html.BeginForm("Approve", "BloodBank", new { Id = item.Id }, FormMethod.Get))
+                                                        {
+                                                            <button class="btn btn-secondary">Approve Blood Bank</button>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="btn btn-secondary">Approved</button>
+                                                    }
+                                                </td>
                                             }
-                                            else
-                                            {
-                                                <button class="btn btn-secondary">Approved</button>
-                                            }
-                                        </td>
+                                        </tr>
                                     }
-                                        <td>
-                                            <button class="btn btn-secondary">Request</button>
-                                        </td>
-                                    
-                                </tr>
                                 }
+                                else
+                                {
+                                    @foreach (var item in Model.BankList)
+                                    {
+                                        if (item.ApprovedStatus == true)
+                                        {
+                                        <tr>
+                                            <td data-title="id">@(i++)</td>
+                                            <td itemprop="name" data-title="name" class="donor-name"> @item.BloodBankName</td>
+                                            <td itemprop="address" data-title="address">@item.Location</td>
+                                            <td itemprop="blood" data-title="blood">@item.Phone_No</td>
+                                        </tr>
+                                            }
+                                        }
+                                    }
+
                             </tbody>
                         </table>
                     </div>
@@ -136,81 +171,29 @@
 </body>
 
 </html>
-
-@*<link rel="stylesheet" href="~/css/style.css">
-    <body>
-        <div class="row col-sm-6">
-            <div class="col-sm-6 form-group">
-                <input id="txtVal" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-
-            </div>
-            <div class="col-sm-6 form-group">
-                <button class="btn btn-primary" id="btnSearch"> Search</button>
-
-            </div>
-        </div>
-
-        <div id="bloodbankList">
-            <table class="table  table-responsive table-hover">
-                <thead class="thead-light">
-                    <tr>
-                        <th>S.N</th>
-                        <th>Blood Bank Name</th>
-                        <th>Location</th>
-                        <th>Contact</th>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <th>Action</th>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    @{ int i = 1;}
-                    @foreach (var item in Model.BankList)
-                    {
-                        <tr>
-                            <td>@(i++)</td>
-                            <td>@item.BloodBankName</td>
-                            <td>@item.Location</td>
-                            <td>@item.Phone_No</td>
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <td>
-                                    @Html.ActionLink("Delete", "Delete", "BloodBank", new { id = item.Id }, new { @class = "btn btn-secondary" })
-                                    @Html.ActionLink("Edit", "CreateOrEdit", "BloodBank", new { id = item.Id }, new { @class = "btn btn-secondary" })
-                                </td>
-                            }
-                        </tr>
-                    }
-
-                </tbody>
-            </table>
-        </div>
-        <div id="staffList"></div>
-    </body>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            $("#btnSearch").click(function () {
-                $.ajax({
-                    type: "GET",
-                    url: "/BloodBank/AutoComplete",
-                    type: 'GET',
-                    data: {
-                        val: $('#txtVal').val(),
-
-                    },
-                    success: function (response) {
-                        $('#bloodbankList').empty();
-                        $('#bloodbankList').html(response);
-                    },
-                    failure: function (response) {
-                        alert(response.responseText);
-                    },
-                    error: function (response) {
-                        alert(response.responseText);
-                    }
-                });
+<div id="BankList"></div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#btnSearch").click(function () {
+            $.ajax({
+                type: "GET",
+                url: 'BloodBank/AutoComplete',
+                type: 'GET',
+                data: {
+                    val: $('#txtVal').val(),
+                },
+                success: function (response) {
+                    $('#BankList').empty();
+                    $('#BankList').html(response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
             });
         });
-    </script>*@
+    });
+</script>

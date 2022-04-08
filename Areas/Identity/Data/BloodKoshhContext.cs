@@ -36,6 +36,8 @@ namespace BloodKoshh.Data
         public DbSet<Watchlist> Watchlists { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<NotificationUser> UserNotifications { get; set; }
+        public DbSet<DonorLocation> DonorLocation { get; set; }
+
 
     }
 }

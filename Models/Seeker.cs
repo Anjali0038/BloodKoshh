@@ -29,6 +29,8 @@ namespace BloodKoshh.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
         public bool Requeststatus { get; set; }
+        public string UserId { get; set; }
+        public BloodKoshhUser bloodKoshhUser { get; set; }
     }
 }
 

@@ -27,9 +27,9 @@ namespace BloodKoshh.Models
         [Phone]
         public double PhoneNo { get; set; }
         [Required]
-        public string Address { get; set; }
-        [Required]
         public string District { get; set; }
+        public string Address { get; set; }
+
         [Required]
         public char Gender { get; set; }
         [DataType(DataType.Date)]
@@ -47,7 +47,7 @@ namespace BloodKoshh.Models
         public int Count { get; set; }
         public DateTime LastDonated { get; set; }
         public string UserId { get; set; }
-
+        public int LocationId { get; set; }
         public List<DonorViewModel> DonorList { get; set; }
         public DonorViewModel()
         {

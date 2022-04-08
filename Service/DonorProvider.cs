@@ -38,7 +38,9 @@ namespace BloodKosh.Service
             string userid = model.UserId;
             Donor donor = new Donor();
             donor = _mapper.Map<Donor>(model);
-            if (donor.Donor_id > 0)
+            var data1 = _context.Donors.Where(x => x.UserId == userid).Count();
+
+            if (donor.Donor_id > 0|| data1>=1)
             {
                 _iDonorRepository.Update(donor);
                 return 200;
@@ -46,7 +48,9 @@ namespace BloodKosh.Service
             else
             {
                 var data = _context.Users.Where(x => x.Id == userid).First();
+                //var data1 = _context.DonorLocation.Where(x => x.LocationId == model.LocationId).First();
                 donor.UserId = data.Id;
+                //donor.LocationId = data1.LocationId;
                 _iDonorRepository.Add(donor);
                 return 200;
             }
@@ -100,10 +104,10 @@ namespace BloodKosh.Service
             DonorViewModel model = new DonorViewModel();
             var list = new List<DonorViewModel>();
             List<Donor> data = _iDonorRepository.GetAll().ToList();
-            data.Sort();
-            foreach (var item in data)
+           var ordered =  data.OrderByDescending(x=>x.Count).ToList();
+            foreach (var item in ordered)
             {
-                    list = _mapper.Map<List<Donor>, List<DonorViewModel>>(data);
+                    list = _mapper.Map<List<Donor>, List<DonorViewModel>>(ordered);
                     model.DonorList = list;
             }
             return model;

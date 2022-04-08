@@ -1,4 +1,5 @@
-﻿@{
+﻿@model BloodKoshh.Models.UserViewModel;
+@{
     ViewData["Title"] = "Home Page";
 }
 <!DOCTYPE html>
@@ -19,10 +20,12 @@
 </head>
 
 <body>
-    <section class="firstSection container" >
-        <img src="~/images/poster.webp" alt="eventposter" style="height:350px; " class="center">
+    <section class="firstSection container">
+        @*<img src="~/images/poster.webp" alt="eventposter" style="height:350px; " class="center">*@
+        @*<img src="~/images/blood.jpg" alt="eventposter" style="height:400px; margin-left:-200px; margin-top:10000px; " class="center">*@
+        <h1 style="margin-top:80px; margin-left:300px;"> @*You can Help on Blood Donation*@</h1>
     </section>
-    <section class="feature-box">
+    <section class="feature-box" style="margin-left:-200px; margin-right:-200px;">
         <div class="auto-container" style="justify-content: center;text-align: center;">
             <div class="row clearfix" style="justify-content: center;text-align: center;">
                 <article class="feature1 col-md-2 col-sm-4 col-xs-6">
@@ -126,7 +129,7 @@
                 <div class="wow col-sm-3 rotateInDownRight text-center" data-wow-delay="0ms" data-wow-duration="1000ms">
                     <picture>
                         <img src='~/images/fact cloud.jpg' alt='One Donation Can save upto three lives'
-                             style= "height:370px" >
+                             style="height:370px">
                     </picture>
                 </div>
             </div>
@@ -158,7 +161,7 @@
 
             </div>
             <br><br>
-           
+
             <ul class="nav nav-tabs" style="color:#961e1b;"><b>Whole Blood Donation</b></ul>
 
             <div class='row tabInfo' id='wholeBlood'>
@@ -306,11 +309,30 @@
                 </div>
             </div>
             <br><br>
-            <button type='button' onclick="window.location='/BLDAHIMS/bloodbank/nearbyBBRed.cnt'"
-                    style='border-radius:0px' class='btn-lg btn btn-danger svcNearBy hvr-sweep-to-right '>
-                Find Nearest Blood
-                Bank To Donate
-            </button>
+            @*<button type='button'
+                        style='border-radius:0px' class='btn-lg btn btn-danger svcNearBy hvr-sweep-to-right '>
+                    Find Nearest Blood
+                    Bank To Donate
+                </button>*@
+            <form asp-action="Index" asp-controller="Home">
+                <label class="select-vaccination">Choose your Bloodgroup</label>
+                @*<select asp-for="DonorId"  asp-items="ViewBag.donorinfoid"></select>*@
+                <select class="selectgroup" asp-for="DonorId" type="text" placeholder="Enter Blood group">
+                    <option>A+</option>
+                    <option>O+</option>
+                    <option>B+</option>
+                    <option>A-</option>
+                    <option>AB+</option>
+                    <option>O-</option>
+                    <option>B-</option>
+                    <option>AB-</option>
+                </select>
+                <label class="select-location">Select location</label>
+                <select asp-for="LocationId" class="select-location" asp-items="ViewBag.LocationId"></select>
+                <button asp-controller="Home" asp-action="SearchNearestLocation" style='border-radius:0px' class='btn-lg btn btn-danger svcNearBy hvr-sweep-to-right '>
+                    Find Nearest Donors to Donate
+                </button>
+            </form>
             <br><br>
         </div>
     </div>
@@ -336,69 +358,29 @@
                                 <td><b>Contact</b></td>
                             </tr>
                         </thead>
-                        <tr>
-                            <td><span style="color: #961e1b;"><b>Ram Sharma</b></span></td>
-                            <td>A+</td>
-                            <td>Kathmandu</td>
-                            <td>986745367</td>
-                        </tr>
-                        <tr>
-                            <td><span style="color: #961e1b;"><b>Hari Dhakal</b></span></td>
-                            <td>O+</td>
-                            <td>Patan Dhoka</td>
-                            <td>8783673</td>
-                        </tr>
-                        <tr>
-                            <td><span style="color: #961e1b;"><b>Saroj Tamang</b></span></td>
-                            <td>B+</td>
-                            <td>Sanepa</td>
-                            <td>799679797</td>
-                        </tr>
-                        <tr>
-                            <td><span style="color: #961e1b;"><b>Shyam Khadka</b></span></td>
-                            <td>AB+</td>
-                            <td>Baneshwor</td>
-                            <td>55576876</td>
-                        </tr>
-                        <tr>
-                            <td><span style="color: #961e1b;"><b>Sita Ghimire</b></span></td>
-                            <td>A+</td>
-                            <td>Sankhamul</td>
-                            <td>986775648</td>
-                        </tr>
-                        <tr>
-                            <td><span style="color: #961e1b;"><b>Gita Thapa</b></span></td>
-                            <td>AB+</td>
-                            <td>Ason</td>
-                            <td>O886769-</td>
-                        </tr>
-                        <tr>
-                            <td><span style="color: #961e1b;"><b>Saroj Tamang</b></span></td>
-                            <td>B+</td>
-                            <td>Kathmandu</td>
-                            <td>799679797</td>
-                        </tr>
-                        <tr>
-                            <td><span style="color: #961e1b;"><b>Shyam Khadka</b></span></td>
-                            <td>AB+</td>
-                            <td>Teku</td>
-                            <td>55576876</td>
-                        </tr>
+                        <tbody id="frequentDonor">
                         </tbody>
+                        @*<tr>
+                                <td><span style="color: #961e1b;"><b>Ram Sharma</b></span></td>
+                                <td>A+</td>
+                                <td>Kathmandu</td>
+                                <td>986745367</td>
+                            </tr>*@
+
                     </table>
                 </div>
-                <div class="col-md-3" style="justify-content: center;text-align: center; padding-top: 370px;">
+                @*<div class="col-md-3" style="justify-content: center;text-align: center; padding-top: 370px;">
                     <button onclick="window.location='/BLDAHIMS/bloodbank/nearbyBBRed.cnt'"
                             class='btn btn-danger svcNearBy hvr-sweep-to-right '>
                         View whole list >>
                     </button><br><br>
-                </div>
+                </div>*@
             </div>
         </div>
     </section>
 
     <!-- footer [START]-->
-    <section class="footer">
+    <section class="footer" style="margin-left:-200px; margin-right:-200px;">
         <div class="container-fluid" style="max-width: 80%">
             <div class="row contact-footer justify-content-center">
                 <div class="col-md-9 justify-content-center ipad-footer">
@@ -440,9 +422,28 @@
         </div>
     </section>
     <!-- footer [END]-->
+    <footer style="margin-left:-200px; margin-right:-200px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 footer-logo">
+                    <img src="~/images/logo.png">
+                </div>
+                <div class="col-md-6 footer-text">
+                    © 2022 Blood Kosh | Designed and Developed By MBM College Students.
+                </div>
+
+            </div>
+        </div>
+    </footer>
 
 
 
+    @*<script src="~/js/jquery-3.4.1.min.js"></script>*@
+    <script src="~/js/revealonscroll.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/scroll.js"></script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script>
         var coll = document.getElementsByClassName("collapsible");
         var i;
@@ -458,12 +459,49 @@
                 }
             });
         }
+
+        $(document).ready(function () {
+            debugger
+            $.ajax({
+
+                // Our sample url to make request 
+                url:
+                    '/Donor/Frequent',
+
+                // Type of Request
+                type: "GET",
+
+                // Function to call when to
+                // request is ok 
+                success: function (data) {
+                    $('#frequentDonor').empty();
+                    $('#frequentDonor').html(data);
+                },
+
+                // Error handling 
+                error: function (error) {
+                    console.log(`Error ${error}`);
+                }
+            });
+            //$.ajax({
+            //    type: "GET",
+            //    url: "/Donor/Frequent",
+            //    type: 'GET',
+            //    success: function (response) {
+            //        $('#frequentDonor').empty();
+            //        $('#frequentDonor').html(response);
+            //    },
+            //    failure: function (response) {
+            //        alert(response.responseText);
+            //    },
+            //    error: function (response) {
+            //        alert(response.responseText);
+            //    }
+            //});
+        });
     </script>
 
-    <script src="~/js/jquery-3.4.1.slim.min.js"></script>
-    <script src="~/js/revealonscroll.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/scroll.js"></script>
+
 </body>
 
 </html>

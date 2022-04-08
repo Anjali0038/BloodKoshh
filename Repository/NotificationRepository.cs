@@ -44,9 +44,10 @@ namespace BloodKoshh.Repository
 
                 _context.UserNotifications.Add(userNotification);
                 _context.SaveChanges();
-            }
 
-            //_hubContext.Clients.All.InvokeAsync("displayNotification", "");
+            }
+            //_hubContext.Clients.User(userNotification).SendAsync("displayNotification");
+           // _hubContext.Clients.All.InvokeAsync("displayNotification", "");
         }
 
         public List<NotificationUser> GetUserNotifications(string userId)
