@@ -41,7 +41,7 @@
                         <input id="txt" type="hidden" asp-for="EventId" />
                         <button id="btnSearch" type="submit" style="margin: 0; width:80px; height:37px; background: #d14461;" class="btn search-button form-control hidden-sm">Search</button>
                     </form>
-                   
+
                 </div>
                 <div id="EventList"></div>
             </div>
@@ -58,8 +58,8 @@
                                     <th>Date</th>
                                     @if (User.IsInRole("Admin"))
                                     {
-                                        <th>Action</th>
-                                        <th>Approve</th>
+                                    <th>Action</th>
+                                    <th>Approve</th>
                                     }
                                 </tr>
                             </thead>
@@ -67,7 +67,7 @@
                                 @{ int i = 1;}
                                 @if (User.IsInRole("Admin"))
                                 {
-                                    @foreach (var item in Model.EventList)
+                                @foreach (var item in Model.EventList)
                                     {
                                 <tr>
                                     <td data-title="id">@(i++)</td>
@@ -76,7 +76,7 @@
                                     <td itemprop="blood" data-title="blood">@item.PhoneNo</td>
                                     <td itemprop="blood" data-title="blood">@item.EventDate</td>
                                     @*@if (item.Email == UserManager.GetUserAsync(User).Result.Email)
-        {*@
+                                        {*@
                                     <td>
                                         @Html.ActionLink("Delete", "Delete", "Event", new { id = item.EventId }, new { @class = "btn btn-secondary" })
                                         @Html.ActionLink("Edit", "CreateOrEdit", "Event", new { id = item.EventId }, new { @class = "btn btn-secondary" })
@@ -84,14 +84,14 @@
                                     <td>
                                         @if (item.ApprovedStatus == false)
                                         {
-                                            @using (Html.BeginForm("Approve", "Event", new { Id = item.EventId }, FormMethod.Get))
+                                        @using (Html.BeginForm("Approve", "Event", new { Id = item.EventId }, FormMethod.Get))
                                             {
-                                                <button class="btn btn-secondary">Approve Event</button>
+                                        <button class="btn btn-secondary">Approve Event</button>
                                             }
                                         }
                                         else
                                         {
-                                            <button class="btn btn-secondary">Approved</button>
+                                        <button class="btn btn-secondary">Approved</button>
                                         }
                                     </td>
                                 </tr>
@@ -100,18 +100,18 @@
                                 }
                                 else
                                 {
-                                    @foreach (var item in Model.EventList)
+                                @foreach (var item in Model.EventList)
                                     {
                                         if (item.ApprovedStatus == true)
                                         {
-                                            <tr>
-                                                <td data-title="id">@(i++)</td>
-                                                <td itemprop="name" data-title="name" class="donor-name"> @item.EventName </td>
-                                                <td itemprop="address" data-title="address">@item.Location</td>
-                                                <td itemprop="blood" data-title="blood">@item.PhoneNo</td>
-                                                <td itemprop="blood" data-title="blood">@item.EventDate</td>
+                                <tr>
+                                    <td data-title="id">@(i++)</td>
+                                    <td itemprop="name" data-title="name" class="donor-name"> @item.EventName </td>
+                                    <td itemprop="address" data-title="address">@item.Location</td>
+                                    <td itemprop="blood" data-title="blood">@item.PhoneNo</td>
+                                    <td itemprop="blood" data-title="blood">@item.EventDate</td>
 
-                                            </tr>
+                                </tr>
                                         }
                                     }
                                 }
@@ -140,25 +140,52 @@
         }
     </script>
 
-    <script src="~/js/jquery-3.4.1.slim.min.js"></script>
+    @*<script src="~/js/jquery-3.4.1.slim.min.js"></script>
     <script src="~/js/revealonscroll.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/scroll.js"></script>
+    <script src="~/js/scroll.js"></script>*@
 </body>
 
 </html>
 <!--link for autocomplete-->
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.0.min.js" type="text/javascript"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.min.js" type="text/javascript"></script>
+<link href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/blitzer/jquery-ui.css"
+      rel="Stylesheet" type="text/css" />
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
     $(function () {
+        $("#txtVal").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: 'Event/Autocomplete',
+                    data: { "prefix": request.term },
+                    type: "POST",
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (e, i) {
+                $("#txt").val(i.item.val);
+            },
+            minLength: 1
+        });
         $("#btnSearch").click(function () {
             $.ajax({
                 type: "GET",
-                url: '/Event/Search',
+                url: 'Event/Search',
                 type: 'GET',
                 data: {
-                    val: $('#txtVal').val(),
+                    query: $('#txtVal').val(),
                 },
                 success: function (response) {
                     $('#EventList').empty();
@@ -171,6 +198,11 @@
                     alert(response.responseText);
                 }
             });
+            $("#approveform").submit(function (e) {
+                //disable the submit button
+                $("#btnSubmit").attr("disabled", true);
+                return true;
+
+            });
         });
-    });
 </script>

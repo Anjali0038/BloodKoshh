@@ -315,9 +315,9 @@
                     Bank To Donate
                 </button>*@
             <form asp-action="Index" asp-controller="Home">
-                <label class="select-vaccination">Choose your Bloodgroup</label>
+                <!--<label class="select-vaccination">Choose your Bloodgroup</label>-->
                 @*<select asp-for="DonorId"  asp-items="ViewBag.donorinfoid"></select>*@
-                <select class="selectgroup" asp-for="DonorId" type="text" placeholder="Enter Blood group">
+                <!--<select class="selectgroup" asp-for="DonorId" type="text" placeholder="Enter Blood group">
                     <option>A+</option>
                     <option>O+</option>
                     <option>B+</option>
@@ -326,11 +326,11 @@
                     <option>O-</option>
                     <option>B-</option>
                     <option>AB-</option>
-                </select>
+                </select>-->
                 <label class="select-location">Select location</label>
                 <select asp-for="LocationId" class="select-location" asp-items="ViewBag.LocationId"></select>
                 <button asp-controller="Home" asp-action="SearchNearestLocation" style='border-radius:0px' class='btn-lg btn btn-danger svcNearBy hvr-sweep-to-right '>
-                    Find Nearest Donors to Donate
+                    Find Nearest Blood Banks
                 </button>
             </form>
             <br><br>

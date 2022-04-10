@@ -99,7 +99,7 @@
                                             <td itemprop="address" data-title="address">@item.Location</td>
                                             <td itemprop="blood" data-title="blood">@item.Phone_No</td>
                                             @*@if (item.Email == UserManager.GetUserAsync(User).Result.Email)
-                    {*@
+                                                {*@
                                             @if (User.IsInRole("Admin"))
                                             {
                                                 <td>
@@ -129,15 +129,15 @@
                                     {
                                         if (item.ApprovedStatus == true)
                                         {
-                                        <tr>
-                                            <td data-title="id">@(i++)</td>
-                                            <td itemprop="name" data-title="name" class="donor-name"> @item.BloodBankName</td>
-                                            <td itemprop="address" data-title="address">@item.Location</td>
-                                            <td itemprop="blood" data-title="blood">@item.Phone_No</td>
-                                        </tr>
-                                            }
+                                            <tr>
+                                                <td data-title="id">@(i++)</td>
+                                                <td itemprop="name" data-title="name" class="donor-name"> @item.BloodBankName</td>
+                                                <td itemprop="address" data-title="address">@item.Location</td>
+                                                <td itemprop="blood" data-title="blood">@item.Phone_No</td>
+                                            </tr>
                                         }
                                     }
+                                }
 
                             </tbody>
                         </table>
@@ -164,17 +164,46 @@
         }
     </script>
 
-    <script src="~/js/jquery-3.4.1.slim.min.js"></script>
-    <script src="~/js/revealonscroll.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/scroll.js"></script>
+    @*<script src="~/js/jquery-3.4.1.slim.min.js"></script>
+        <script src="~/js/revealonscroll.js"></script>
+        <script src="~/js/bootstrap.min.js"></script>
+        <script src="~/js/scroll.js"></script>*@
 </body>
 
 </html>
 <div id="BankList"></div>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+@*<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.0.min.js" type="text/javascript"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.min.js" type="text/javascript"></script>
+<link href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/blitzer/jquery-ui.css"
+      rel="Stylesheet" type="text/css" />
 <script type="text/javascript">
     $(function () {
+        $("#txtVal").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: 'BloodBank/AutoComplete',
+                    data: { "prefix": request.term },
+                    type: "POST",
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (e, i) {
+                $("#txt").val(i.item.val);
+            },
+            minLength: 1
+        });
         $("#btnSearch").click(function () {
             $.ajax({
                 type: "GET",
